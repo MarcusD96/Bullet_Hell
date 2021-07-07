@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Shoot : MonoBehaviour {
 
+    public int damage;
     public Bullet bullet;
     public Transform pivot, fireSpawn;
 
@@ -21,7 +22,7 @@ public class Shoot : MonoBehaviour {
     void Fire() {
         if(nextfire <= 0) {
             Bullet b = Instantiate(bullet, fireSpawn.position, Quaternion.identity);
-            b.Initialize(pivot.rotation * Vector2.right);
+            b.Initialize(damage, pivot.rotation * Vector2.right, pivot.rotation);
             nextfire = 1 / firerate;
         }
         nextfire -= Time.deltaTime;

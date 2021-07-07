@@ -5,6 +5,8 @@ public class Movement : MonoBehaviour {
 
     public Transform pivot;
 
+    public float screenWidth, screenHeight;
+
     void Update() {
         RotateToMouse();
         MovementInput();
@@ -27,6 +29,8 @@ public class Movement : MonoBehaviour {
         //move right
         if(Input.GetKey(KeyCode.D))
             transform.Translate(Vector2.right * speed * Time.deltaTime);
+
+        CheckEdges();
     }
 
     void RotateToMouse() {
@@ -35,6 +39,23 @@ public class Movement : MonoBehaviour {
         var offset = new Vector2(mouse.x - screenPoint.x, mouse.y - screenPoint.y);
         var angle = Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg;
         pivot.rotation = Quaternion.Euler(0, 0, angle);
-        Debug.DrawRay(transform.position, pivot.up, Color.red, Time.deltaTime, false);
+    }
+
+    void CheckEdges() {
+        Vector2 pos = transform.position;
+
+        if(pos.x < -screenWidth)
+            pos.x = screenWidth;
+
+        if(pos.x > screenWidth)
+            pos.x = -screenWidth;
+
+        if(pos.y < -screenHeight)
+            pos.y = screenHeight;
+
+        if(pos.y > screenHeight)
+            pos.y = -screenHeight;
+
+        transform.position = pos;
     }
 }
