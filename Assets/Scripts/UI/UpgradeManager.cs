@@ -3,58 +3,72 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class UpgradeManager : MonoBehaviour {
+
+
+    #region Singleton
+
+    public static UpgradeManager Instance;
+
+    private void Awake() {
+        if(Instance) {
+            Destroy(this);
+            return;
+        }
+        Instance = this;
+    }
+
+    #endregion
 
     public GameObject upgradePanel, upgradeSelections;
     public UpgradeTemplate blankUpgradePrefab;
     public Upgrade[] primaryUpgrades;
     public TextMeshProUGUI upgradeText;
+    public Player CurrentGunner { get; set; }
 
     private Upgrade choice = null;
     private List<UpgradeTemplate> shownUpgrades = new List<UpgradeTemplate>();
-    private Player currentGunner;
-    private bool finalUpgrade = false;
 
-    int lowestCost;
+    int upgradeTokens = 1;
+
     private void Start() {
-        currentGunner = FindObjectOfType<Player>();
-        lowestCost = int.MaxValue;
-        FindLowestCost(primaryUpgrades);
+        CurrentGunner = FindObjectOfType<Player>();
         upgradeText.gameObject.SetActive(false);
         upgradePanel.SetActive(false);
     }
 
     private void Update() {
-        if(PlayerStatsManager.Instance.GetLevel() >= lowestCost && !finalUpgrade) {
-            upgradeText.gameObject.SetActive(true);
-            if(Input.GetKeyDown(KeyCode.E))
-                OpenUpgrades();
-        }
-        else if(upgradeText.gameObject.activeSelf)
+        if(upgradeTokens < 1) {
             upgradeText.gameObject.SetActive(false);
+            return;
+        }
+        upgradeText.gameObject.SetActive(true);
+
+        if(!Input.GetButtonDown("Gunner Upgrade"))
+            return;
+
+        if(!upgradePanel.activeSelf)
+            OpenUpgrades();
+        else
+            CloseUpgrades();
+
     }
 
-    void FindLowestCost(Upgrade[] upgrades) {
-        lowestCost = int.MaxValue;
-        foreach(var u in upgrades) {
-            if(u.cost < lowestCost)
-                lowestCost = u.cost;
-        }
-    }
+    public void AwardUpgradeToken() => upgradeTokens++;
+
+    public void UseUpgradeToken() => upgradeTokens--;
 
     public void ChooseUpgrade(int choice_, Upgrade[] choices) {
-        Vector2 pos = currentGunner.transform.position;
-        Quaternion rot = currentGunner.transform.rotation;
-        Destroy(currentGunner.gameObject);
-        if(choice != null)
-            finalUpgrade = true;
+        Vector2 pos = CurrentGunner.transform.position;
+        Quaternion rot = CurrentGunner.transform.rotation;
+        Destroy(CurrentGunner.gameObject);
         choice = choices[choice_];
-        currentGunner = Instantiate(choice.upgradePrefab, pos, rot);
-        StatsUI.Instance.SetNewPlayer(currentGunner);
+        CurrentGunner = Instantiate(choice.upgradePrefab, pos, rot);
+        StatsUI.Instance.SetNewPlayer(CurrentGunner);
         CloseUpgrades();
-        PlayerStatsManager.Instance.CanSubtractLevel(choice.cost);
-        FindLowestCost(choice.childUpgrades);
+        UseUpgradeToken();
     }
 
     UpgradeTemplate MakeNewUpgrade(int id, Upgrade[] choices) {
@@ -65,8 +79,9 @@ public class UpgradeManager : MonoBehaviour {
     }
 
     private void OpenUpgrades() {
-
-        Time.timeScale = 0;
+        StatsUI.Instance.CloseUpgrades();
+        Cursor.visible = true;
+        Time.timeScale = 0.2f;
         upgradePanel.gameObject.SetActive(true);
         foreach(var u in shownUpgrades) {
             Destroy(u.gameObject);
@@ -89,10 +104,17 @@ public class UpgradeManager : MonoBehaviour {
                 SetUpgrades(i, choice.childUpgrades);
             }
         }
+
+        EventSystem.current.SetSelectedGameObject(null);
+        if(FindObjectOfType<GameManager>().useController) {
+            EventSystem.current.SetSelectedGameObject(shownUpgrades[0].gameObject);
+        }
     }
 
     private void CloseUpgrades() {
         Time.timeScale = 1;
+        Cursor.visible = false;
+        EventSystem.current.firstSelectedGameObject = null;
         upgradePanel.SetActive(false);
         upgradeText.gameObject.SetActive(false);
     }
@@ -100,7 +122,5 @@ public class UpgradeManager : MonoBehaviour {
     void SetUpgrades(int id, Upgrade[] choices) {
         Button b = shownUpgrades[id].GetComponent<Button>();
         b.onClick.AddListener(delegate { ChooseUpgrade(id, choices); });
-        if(PlayerStatsManager.Instance.GetLevel() < primaryUpgrades[id].cost)
-            b.interactable = false;
     }
 }

@@ -348,12 +348,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a528ba20fa54e044abb6a2c0fcf3254b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseHp: 6
+  baseHp: 30
   xpWorth: 5
-  damage: 3
+  damage: 5
   hpText: {fileID: 2383663372924999687}
+  xpPickUp: {fileID: 6811539494057836143, guid: c18c7a339d267fe49a5692213a7210b9, type: 3}
+  explosionPrefab: {fileID: 7496335483395040508, guid: d952ceb00db84d34ebacd7decdbc1424, type: 3}
+  explosionScale: 2
+  upgradeStar: {fileID: -1531893813464338307, guid: 0350dd254c94afb45b43388a45e2488d, type: 3}
   babySpawns: {fileID: 3204078848763761032, guid: 8015285fef24bf8488b523251ac0d8a7, type: 3}
-  numSpawn: 4
+  numSpawn: 6
 --- !u!114 &-1036931103746806657
 MonoBehaviour:
   m_ObjectHideFlags: 0

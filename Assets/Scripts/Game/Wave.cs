@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿
 
 [System.Serializable]
 public class Wave {
@@ -27,4 +25,7 @@ public class WaveChunk {
     public Enemy enemy;
     public int count;
     public float spawnRate, spawnDelay;
+    public bool isBurst = false;
+    [UnityEngine.Tooltip("If burst type, how many per burst?")]
+    public float burstNum;
 }

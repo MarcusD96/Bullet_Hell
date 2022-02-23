@@ -9,7 +9,7 @@ public class KamikazeEnemy : Enemy {
     private void OnTriggerEnter2D(Collider2D collision) {
         if(collision.TryGetComponent(out p)) {
             p.TakeDamage(damage);
-            Die(false);
+            Die();
         }
     }
 }

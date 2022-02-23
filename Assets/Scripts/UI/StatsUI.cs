@@ -3,14 +3,17 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class StatsUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
+public class StatsUI : MonoBehaviour {
 
     public static StatsUI Instance;
+
+    public GameObject buttonGroup;
 
     public Button[] hpButtons, regenButtons, damageButtons, fireRateButtons, penetrationButtons, moveSpeedButtons, projSpeedButtons;
 
     private Player player;
     private Animator animator;
+    private bool isEnabled = false;
 
     private void Awake() {
         if(Instance) {
@@ -33,7 +36,7 @@ public class StatsUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler 
         player = FindObjectOfType<Player>();
         animator = GetComponent<Animator>();
 
-        InvokeRepeating("UpdateStats", 0, 0.1f);
+        UpdateStats();
     }
 
     void AddEvents(Button[] btns, int type) {
@@ -50,6 +53,9 @@ public class StatsUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler 
         var inst = PlayerStatsManager.Instance;
         int s = 0;
 
+
+        EventSystem.current.SetSelectedGameObject(null);
+
         switch(type) {
             case 0: { //hp
                 if(inst.hpLevel >= 10)
@@ -57,6 +63,7 @@ public class StatsUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler 
                 inst.hpLevel++;
                 s = inst.hpLevel;
                 player.UpdateLevels(true);
+                EventSystem.current.SetSelectedGameObject(hpButtons[s].gameObject);
                 break;
             }
             case 1: { //regen
@@ -64,6 +71,7 @@ public class StatsUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler 
                     break;
                 inst.hpRegenLevel++;
                 s = inst.hpRegenLevel;
+                EventSystem.current.SetSelectedGameObject(regenButtons[s].gameObject);
                 break;
             }
             case 2: { //damage
@@ -71,6 +79,7 @@ public class StatsUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler 
                     break;
                 inst.damageLevel++;
                 s = inst.damageLevel;
+                EventSystem.current.SetSelectedGameObject(damageButtons[s].gameObject);
                 break;
             }
             case 3: { //firerate
@@ -78,6 +87,7 @@ public class StatsUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler 
                     break;
                 inst.fireRateLevel++;
                 s = inst.fireRateLevel;
+                EventSystem.current.SetSelectedGameObject(fireRateButtons[s].gameObject);
                 break;
             }
             case 4: { //penetration
@@ -85,6 +95,7 @@ public class StatsUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler 
                     break;
                 inst.penetrationLevel++;
                 s = inst.penetrationLevel;
+                EventSystem.current.SetSelectedGameObject(penetrationButtons[s].gameObject);
                 break;
             }
             case 5: { //movespeed
@@ -92,6 +103,7 @@ public class StatsUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler 
                     break;
                 inst.moveSpeedLevel++;
                 s = inst.moveSpeedLevel;
+                EventSystem.current.SetSelectedGameObject(moveSpeedButtons[s].gameObject);
                 break;
             }
             case 6: { //proj. speed
@@ -99,6 +111,7 @@ public class StatsUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler 
                     break;
                 inst.projectileSpeedLevel++;
                 s = inst.projectileSpeedLevel;
+                EventSystem.current.SetSelectedGameObject(projSpeedButtons[s].gameObject);
                 break;
             }
             default:
@@ -107,9 +120,10 @@ public class StatsUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler 
 
         player.UpdateLevels(false);
         PlayerStatsManager.Instance.CanSubtractLevel(s);
+        UpdateStats();
     }
 
-    void UpdateStats() {
+    public void UpdateStats() {
         var inst = PlayerStatsManager.Instance;
         VerifyStatBtn(hpButtons, inst.hpLevel);
         VerifyStatBtn(regenButtons, inst.hpRegenLevel);
@@ -141,11 +155,34 @@ public class StatsUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler 
         }
     }
 
-    public void OnPointerEnter(PointerEventData eventData) {
-        animator.SetBool("onStats", true);
+    private void Update() {
+        if(Input.GetButtonDown("Stat Upgrade")) {
+            if(isEnabled) {
+                CloseUpgrades();
+                return;
+            }
+            OpenUpgrades();
+        }
     }
 
-    public void OnPointerExit(PointerEventData eventData) {
-        animator.SetBool("onStats", false);
+    void OpenUpgrades() {
+        UpdateStats();
+        isEnabled = true;
+        Time.timeScale = 0.2f;
+        //animator.SetBool("onStats", isEnabled);
+        buttonGroup.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(null);
+        if(FindObjectOfType<GameManager>().useController) {
+            EventSystem.current.SetSelectedGameObject(hpButtons[0].gameObject); 
+        }
+        Cursor.visible = true;
+    }
+
+    public void CloseUpgrades() {
+        isEnabled = false;
+        Time.timeScale = 1f;
+        //animator.SetBool("onStats", isEnabled);
+        buttonGroup.SetActive(false);
+        Cursor.visible = false;
     }
 }

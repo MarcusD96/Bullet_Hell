@@ -10,7 +10,7 @@ public class EnemySpawner : MonoBehaviour {
     public float verticalBound;
     public float horizontalBound;
 
-    public Wave[] waves;
+    public List<Wave> waves;
 
     private List<Enemy> spawnedEnemies;
 
@@ -30,7 +30,7 @@ public class EnemySpawner : MonoBehaviour {
 
     IEnumerator SpawnEnemies() {
         yield return new WaitForSeconds(2);
-        for(int i = 0; i < waves.Length; i++) {
+        for(int i = 0; i < waves.Count; i++) {
             foreach(var c in waves[i].chunks) {
                 StartCoroutine(SpawnWaveChunk(c));
             }
@@ -58,7 +58,13 @@ public class EnemySpawner : MonoBehaviour {
     IEnumerator SpawnWaveChunk(WaveChunk c) {
         yield return new WaitForSeconds(c.spawnDelay);
         for(int i = 0; i < c.count; i++) {
-            SpawnEnemy(c.enemy);
+            if(c.isBurst) {
+                for(int ii = 0; ii < c.burstNum; ii++) {
+                    SpawnEnemy(c.enemy);
+                }
+            }
+            else
+                SpawnEnemy(c.enemy);
             yield return new WaitForSeconds(1 / c.spawnRate);
         }
     }

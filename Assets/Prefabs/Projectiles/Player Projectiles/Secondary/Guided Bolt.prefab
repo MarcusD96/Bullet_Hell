@@ -85,7 +85,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 2540407154203565437}
   projectileMaxDistance: 10
-  projectileMaxLifetime: 5
+  projectileMaxLifetime: 3
   spreadVariation: 0
   variation: 0
   maxAngularSpeed: 120

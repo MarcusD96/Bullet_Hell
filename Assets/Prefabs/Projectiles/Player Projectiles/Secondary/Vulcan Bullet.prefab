@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprite: {fileID: 2540407154203565437}
-  projectileMaxDistance: 0
+  projectileMaxDistance: 20
   projectileMaxLifetime: 5
   spreadVariation: 1
   variation: 0.02

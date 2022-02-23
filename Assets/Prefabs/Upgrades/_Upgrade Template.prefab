@@ -491,7 +491,7 @@ GameObject:
   - component: {fileID: 1946392673102516624}
   - component: {fileID: 2545923018406528186}
   m_Layer: 5
-  m_Name: 'Blank '
+  m_Name: _Upgrade Template
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -534,7 +534,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 1
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -542,9 +542,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 1, g: 0.68235296, b: 0.68235296, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 1, g: 0.6839622, b: 0.6839622, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -576,9 +576,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bf734d624c0d604ca60578beb15265c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  background: {fileID: 1290165659739012162}
   title: {fileID: 3175851538278565641}
-  cost: {fileID: 2522809232900477551}
   sprite: {fileID: 8962092774875619232}
   description: {fileID: 7549778934838831014}
 --- !u!1 &9127185233203920337

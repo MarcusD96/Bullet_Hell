@@ -19,7 +19,7 @@ public class Shoot : MonoBehaviour {
     }
 
     private void ShootInput() {
-        if(Input.GetMouseButton(0)) {
+        if(Input.GetButton("Fire1") || Input.GetAxis("Fire1") > 0) {
             Fire();
         }
     }

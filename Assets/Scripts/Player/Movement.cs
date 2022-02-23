@@ -3,19 +3,23 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour {
 
+    public float joyStickDeadZone;
+    public float rotSpeed = 10;
     public float screenWidth, screenHeight;
     public Transform pivot;
 
     private Player player;
     private TrailRenderer trailRendererComp;
+    private Transform target;
 
-    private void Start() {
+    private void Awake() {
         player = GetComponent<Player>();
         trailRendererComp = GetComponent<TrailRenderer>();
+        target = FindObjectOfType<TargetCursor>().target.transform;
     }
 
     private void Update() {
-        RotateToMouse();
+        RotateToTarget();
         MovementInput();
     }
 
@@ -32,14 +36,8 @@ public class Movement : MonoBehaviour {
         CheckEdges();
     }
 
-    private void RotateToMouse() {
-        if(Time.timeScale < 1)
-            return;
-        var mouse = Input.mousePosition;
-        var screenPoint = Camera.main.WorldToScreenPoint(transform.localPosition);
-        var offset = new Vector2(mouse.x - screenPoint.x, mouse.y - screenPoint.y);
-        var angle = Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg;
-        pivot.rotation = Quaternion.Euler(0, 0, angle);
+    private void RotateToTarget() {
+        pivot.right = target.position - pivot.position;
     }
 
     private void CheckEdges() {

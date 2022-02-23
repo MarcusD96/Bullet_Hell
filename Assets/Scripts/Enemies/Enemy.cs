@@ -7,6 +7,9 @@ public class Enemy : MonoBehaviour {
 
     public int baseHp, xpWorth, damage;
     public TextMeshProUGUI hpText;
+    public XPStar xpPickUp;
+    public GameObject explosionPrefab;
+    public float explosionScale = 1;
 
     private float currentHp;
 
@@ -23,7 +26,7 @@ public class Enemy : MonoBehaviour {
         hpText.text = currentHp.ToString("F0");
 
         if(currentHp <= 0)
-            Die(true);
+            Die();
     }
 
     public void Burn(float damage_, float time_) {
@@ -47,14 +50,20 @@ public class Enemy : MonoBehaviour {
         isBurning = false;
     }
 
-    protected virtual void Die(bool awardPoints) {
+    protected virtual void Die() {
         if(!isDead) {
             isDead = true;
-            if(awardPoints) {
-                PlayerStatsManager.Instance.AddXP(xpWorth); 
-            }
+            SpawnXP();
             EnemySpawner.Instance.RemoveEnemy(this);
-            Destroy(gameObject); 
+            var e = Instantiate(explosionPrefab, transform.position, Quaternion.Euler(0, 0, Random.Range(0, 360)));
+            e.transform.localScale = Vector2.one * explosionScale;
+            Destroy(e, 1.5f);
+            Destroy(gameObject);
         }
+    }
+
+    protected void SpawnXP() {
+            var p = Instantiate(xpPickUp, transform.position, Quaternion.Euler(0, 0, Random.Range(0, 360)));
+            p.InitializePickUp(xpWorth);
     }
 }

@@ -56,6 +56,7 @@ public class PlayerStatsManager : MonoBehaviour {
 
     public void AddXP(int num) {
         currentXP += num;
+        StatsUI.Instance.UpdateStats();
     }
 
     public void CanSubtractLevel(int num) {

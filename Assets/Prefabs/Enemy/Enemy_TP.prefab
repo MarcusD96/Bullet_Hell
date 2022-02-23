@@ -350,8 +350,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseHp: 5
   xpWorth: 3
-  damage: 0
+  damage: 1
   hpText: {fileID: 2383663372924999687}
+  xpPickUp: {fileID: 6811539494057836143, guid: c18c7a339d267fe49a5692213a7210b9, type: 3}
+  explosionPrefab: {fileID: 7496335483395040508, guid: d952ceb00db84d34ebacd7decdbc1424, type: 3}
+  explosionScale: 1
 --- !u!114 &-1036931103746806657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -382,7 +385,7 @@ MonoBehaviour:
   detectionRate: 4
   detectionVariation: 1
   vibrateAmount: 0.08
-  warpDistance: 1.5
+  warpDistance: 2
 --- !u!58 &1676441553191416886
 CircleCollider2D:
   m_ObjectHideFlags: 0

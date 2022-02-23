@@ -4,8 +4,9 @@ using UnityEngine;
 public class GameManager : MonoBehaviour {
 
     public Player gunner;
+    public bool useController = false;
 
-    void Awake() {
-        Instantiate(gunner.gameObject, Vector2.zero, Quaternion.identity);
+    void Start() {
+        Instantiate(gunner, Vector2.zero, Quaternion.identity);
     }
 }
