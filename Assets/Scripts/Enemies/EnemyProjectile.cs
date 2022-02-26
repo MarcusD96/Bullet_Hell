@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
 
-public class EnemyBullet : Weapon {
+public class EnemyProjectile : Weapon {
 
     Player player;
     protected override void OnTriggerEnter2D(Collider2D collision) {

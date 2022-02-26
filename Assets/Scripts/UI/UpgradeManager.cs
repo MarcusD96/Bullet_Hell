@@ -31,7 +31,7 @@ public class UpgradeManager : MonoBehaviour {
     private Upgrade choice = null;
     private List<UpgradeTemplate> shownUpgrades = new List<UpgradeTemplate>();
 
-    int upgradeTokens = 1;
+    int upgradeTokens = 0;
 
     private void Start() {
         CurrentGunner = FindObjectOfType<Player>();

@@ -6,6 +6,7 @@ public class EnemyMovement : MonoBehaviour {
 
     public float speed;
     public float detectionRate, detectionVariation;
+    public Transform pivot;
 
     private Vector2 direction;
 
@@ -28,8 +29,11 @@ public class EnemyMovement : MonoBehaviour {
     protected virtual void LateUpdate() {
         if(!player)
             player = FindObjectOfType<Player>();
-
+        UpdatePlayerPosition();
         transform.Translate(direction * speed * Time.deltaTime);
+        if(pivot) {
+            pivot.right = direction; 
+        }
     }
 
     private void UpdatePlayerPosition() {

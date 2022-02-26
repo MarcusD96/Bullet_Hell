@@ -9202,6 +9202,14 @@ MonoBehaviour:
   verticalBound: 4
   horizontalBound: 8
   waves:
+  - name: Test
+    chunks:
+    - enemy: {fileID: -2667172292875989378, guid: 7a07311a2d36d7443813455914242214, type: 3}
+      count: 1
+      spawnRate: 1
+      spawnDelay: 0
+      isBurst: 0
+      burstNum: 0
   - name: Starter
     chunks:
     - enemy: {fileID: 3204078848763761032, guid: 8015285fef24bf8488b523251ac0d8a7, type: 3}
@@ -9236,6 +9244,14 @@ MonoBehaviour:
       spawnDelay: 1
       isBurst: 0
       burstNum: 0
+  - name: Boss
+    chunks:
+    - enemy: {fileID: 1778263389189660886, guid: aafb607e224f2a84c820eac021ba580e, type: 3}
+      count: 1
+      spawnRate: 1
+      spawnDelay: 5
+      isBurst: 0
+      burstNum: 0
   - name: TP
     chunks:
     - enemy: {fileID: 3204078848763761032, guid: 8015285fef24bf8488b523251ac0d8a7, type: 3}
@@ -9250,14 +9266,55 @@ MonoBehaviour:
       spawnDelay: 25
       isBurst: 0
       burstNum: 0
-  - name: Boss
+  - name: All
     chunks:
-    - enemy: {fileID: 1778263389189660886, guid: aafb607e224f2a84c820eac021ba580e, type: 3}
+    - enemy: {fileID: 3204078848763761032, guid: 8015285fef24bf8488b523251ac0d8a7, type: 3}
+      count: 3
+      spawnRate: 0.022222223
+      spawnDelay: 0
+      isBurst: 1
+      burstNum: 10
+    - enemy: {fileID: -2667172292875989378, guid: 7a07311a2d36d7443813455914242214, type: 3}
+      count: 3
+      spawnRate: 0.022222223
+      spawnDelay: 0
+      isBurst: 1
+      burstNum: 4
+    - enemy: {fileID: 3315090046972838228, guid: cc298071587e1d14e9f4f6c949025c01, type: 3}
+      count: 3
+      spawnRate: 0.022222223
+      spawnDelay: 0
+      isBurst: 0
+      burstNum: 6
+  - name: Boss 2
+    chunks:
+    - enemy: {fileID: 1778263389189660886, guid: bac37208a2db9b24897428fac3d3a90a, type: 3}
       count: 1
       spawnRate: 1
       spawnDelay: 0
       isBurst: 0
       burstNum: 0
+  - name: All2
+    chunks:
+    - enemy: {fileID: 3204078848763761032, guid: 8015285fef24bf8488b523251ac0d8a7, type: 3}
+      count: 3
+      spawnRate: 0.025
+      spawnDelay: 0
+      isBurst: 1
+      burstNum: 20
+    - enemy: {fileID: -2667172292875989378, guid: 7a07311a2d36d7443813455914242214, type: 3}
+      count: 3
+      spawnRate: 0.025
+      spawnDelay: 0
+      isBurst: 1
+      burstNum: 8
+    - enemy: {fileID: 3315090046972838228, guid: cc298071587e1d14e9f4f6c949025c01, type: 3}
+      count: 3
+      spawnRate: 0.025
+      spawnDelay: 0
+      isBurst: 0
+      burstNum: 12
+  waveNum: 0
 --- !u!114 &948117600
 MonoBehaviour:
   m_ObjectHideFlags: 0

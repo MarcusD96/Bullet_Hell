@@ -129,4 +129,6 @@ MonoBehaviour:
   spriteR: {fileID: 2840440289203541725}
   points: 0
   moveSpeed: 0.1
+  magnetizeSpeed: 5
   pickupDistance: 0.8
+  magnetizeDistance: 1

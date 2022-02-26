@@ -7,9 +7,11 @@ public class PickUpStar : MonoBehaviour {
     public SpriteRenderer spriteR;
     public int points;
     public float moveSpeed;
-    public float pickupDistance;
+    public float magnetizeSpeed;
+    public float pickupDistance, magnetizeDistance;
 
     float rotateSpeed;
+    private float baseMoveSpeed;
     Vector3 direction;
     Vector3 camExtents;
 
@@ -20,18 +22,20 @@ public class PickUpStar : MonoBehaviour {
     private void Start() {
         rotateSpeed = Random.Range(7f, 10f);
         direction = Random.insideUnitCircle.normalized;
+        baseMoveSpeed = moveSpeed;
         camExtents = GetCameraExtents();
     }
 
     private void Update() {
         CheckBorder();
         Move();
+        Magnetize();
         PickUp();
     }
 
     void Move() {
         spriteR.transform.Rotate(rotateSpeed * Time.deltaTime * Vector3.forward);
-        transform.Translate(moveSpeed * Time.deltaTime * direction);
+        transform.Translate(moveSpeed * Time.deltaTime * direction, Space.World);
     }
 
     private Vector2 GetCameraExtents() {
@@ -40,12 +44,12 @@ public class PickUpStar : MonoBehaviour {
 
     private void CheckBorder() {
         //top/bottom
-        if(transform.position.y > camExtents.y || transform.position.y < -camExtents.y) {
+        if(transform.position.y >= camExtents.y || transform.position.y <= -camExtents.y) {
             direction.y *= -1f;
         }
 
         //left/right
-        if(transform.position.x < -camExtents.x || transform.position.x > camExtents.x) {
+        if(transform.position.x <= -camExtents.x || transform.position.x >= camExtents.x) {
             direction.x *= -1f;
         }
     }
@@ -54,5 +58,15 @@ public class PickUpStar : MonoBehaviour {
         if(Vector2.Distance(transform.position, UpgradeManager.Instance.CurrentGunner.transform.position) <= pickupDistance)
             return true;
         return false;
+    }
+
+    void Magnetize() {
+        Vector3 pos = UpgradeManager.Instance.CurrentGunner.transform.position;
+        if(Vector2.Distance(transform.position, pos) <= magnetizeDistance) {
+            direction = (pos - transform.position).normalized;
+            moveSpeed = Mathf.Lerp(moveSpeed, magnetizeSpeed, Time.deltaTime);
+        }
+        else
+            moveSpeed = Mathf.Lerp(moveSpeed, baseMoveSpeed, Time.deltaTime * 5f);
     }
 }

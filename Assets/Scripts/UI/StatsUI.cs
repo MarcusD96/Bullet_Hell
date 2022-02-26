@@ -12,7 +12,6 @@ public class StatsUI : MonoBehaviour {
     public Button[] hpButtons, regenButtons, damageButtons, fireRateButtons, penetrationButtons, moveSpeedButtons, projSpeedButtons;
 
     private Player player;
-    private Animator animator;
     private bool isEnabled = false;
 
     private void Awake() {
@@ -34,7 +33,6 @@ public class StatsUI : MonoBehaviour {
         AddEvents(projSpeedButtons, 6);
 
         player = FindObjectOfType<Player>();
-        animator = GetComponent<Animator>();
 
         UpdateStats();
     }
@@ -169,7 +167,6 @@ public class StatsUI : MonoBehaviour {
         UpdateStats();
         isEnabled = true;
         Time.timeScale = 0.2f;
-        //animator.SetBool("onStats", isEnabled);
         buttonGroup.SetActive(true);
         EventSystem.current.SetSelectedGameObject(null);
         if(FindObjectOfType<GameManager>().useController) {
@@ -181,7 +178,6 @@ public class StatsUI : MonoBehaviour {
     public void CloseUpgrades() {
         isEnabled = false;
         Time.timeScale = 1f;
-        //animator.SetBool("onStats", isEnabled);
         buttonGroup.SetActive(false);
         Cursor.visible = false;
     }

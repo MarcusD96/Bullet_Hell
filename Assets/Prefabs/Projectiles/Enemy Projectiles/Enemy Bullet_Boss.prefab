@@ -43,11 +43,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1197739150826516181}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d097c1a12a867ca46b7c8db39aebd2bf, type: 3}
+  m_Script: {fileID: 11500000, guid: c1d45445e1bf8f9498ec5b8d1588513c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprite: {fileID: 2540407154203565437}
-  projectileMaxDistance: 20
+  projectileMaxDistance: 10
   projectileMaxLifetime: 10
   spreadVariation: 0
   variation: 0

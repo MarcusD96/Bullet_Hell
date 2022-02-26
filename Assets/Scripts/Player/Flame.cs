@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Flame : Weapon {
 
+    public Transform sprite;
     public float burnTime;
     public Material[] fireMats;
     public float lifeTime, destroySpeed;

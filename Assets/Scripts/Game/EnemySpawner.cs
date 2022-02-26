@@ -10,9 +10,12 @@ public class EnemySpawner : MonoBehaviour {
     public float verticalBound;
     public float horizontalBound;
 
+    [SerializeField]
     public List<Wave> waves;
 
     private List<Enemy> spawnedEnemies;
+
+    [SerializeField] int waveNum = 0;
 
     private void Awake() {
         if(Instance != null) {

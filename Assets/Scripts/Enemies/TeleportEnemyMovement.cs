@@ -11,7 +11,7 @@ public class TeleportEnemyMovement : EnemyMovement {
     private void Start() {
         originPosition = transform.position;
         InvokeRepeating("Shake", 0, 0.1f);
-        InvokeRepeating("Teleport", 0, detectionRate);
+        InvokeRepeating("Teleport", 0, detectionRate + Random.Range(-detectionVariation, detectionVariation));
     }
 
     protected override void LateUpdate() {

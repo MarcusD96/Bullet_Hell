@@ -6,6 +6,7 @@ public class Player : MonoBehaviour {
 
     public TextMeshProUGUI hpText;
     public Transform[] fireSpawns;
+    public ParticleSystem upgradeEffect;
 
     [HideInInspector]
     public int level, xp, penetration;
@@ -18,7 +19,6 @@ public class Player : MonoBehaviour {
     public float hpRegen;
     public float currentHp, maxHP, damage, fireRate, projectileSpeed, moveSpeed;
 
-    //[HideInInspector]
     public float nextFire = 0;
 
     private void Start() {
@@ -59,7 +59,7 @@ public class Player : MonoBehaviour {
         var stats = PlayerStatsManager.Instance;
         if(resetHp) {
             currentHp = maxHP = Mathf.CeilToInt((1 + (stats.hpLevel * 0.25f)) * baseHP);
-            hpText.text = currentHp.ToString(); 
+            hpText.text = currentHp.ToString();
         }
         hpRegen = stats.hpRegenLevel * Time.deltaTime / 3;
         damage = Mathf.CeilToInt(baseDamage * stats.damageLevel) + baseDamage;
@@ -67,5 +67,7 @@ public class Player : MonoBehaviour {
         penetration = stats.penetrationLevel + basePenetration;
         projectileSpeed = (1 + (stats.projectileSpeedLevel * 0.5f)) * baseProjectileSpeed;
         moveSpeed = (1 + (stats.moveSpeedLevel * 0.5f)) * baseMoveSpeed;
+
+        upgradeEffect.Play();
     }
 }

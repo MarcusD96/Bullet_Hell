@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour {
 
-    public Transform sprite;
     public float projectileMaxDistance, projectileMaxLifetime;
     public bool spreadVariation;
     [Range(0, 1)]

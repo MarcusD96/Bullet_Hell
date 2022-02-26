@@ -5,14 +5,18 @@ using UnityEngine;
 public class EnemyShoot : MonoBehaviour {
 
     public float fireRate;
-    public EnemyBullet weapon;
+    public float projSpeed;
+    //public EnemyProjectile weapon;
+    public Transform[] fireSpawns;
 
     private float nextFire = 0;
     private Enemy enemyComp;
     private Player playerComp;
+    private ProjectileAttack[] attacks;
 
     private void Awake() {
         enemyComp = GetComponent<Enemy>();
+        attacks = GetComponents<ProjectileAttack>();
     }
 
     private void Start() {        
@@ -26,12 +30,8 @@ public class EnemyShoot : MonoBehaviour {
     }
 
     private void Shoot() {
-        if(nextFire <= 0) {
-            EnemyBullet b = Instantiate(weapon, transform.position, Quaternion.identity);
-            b.Initialize(enemyComp.damage, 4, (playerComp.transform.position - transform.position).normalized, Quaternion.identity);
-            nextFire = 1 / fireRate;
-            return;
+        for(int i = 0; i < attacks.Length; i++) {
+            attacks[i].Shoot(fireSpawns);
         }
-        nextFire -= Time.deltaTime;
     }
 }
