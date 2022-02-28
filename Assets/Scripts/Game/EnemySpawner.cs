@@ -15,8 +15,6 @@ public class EnemySpawner : MonoBehaviour {
 
     private List<Enemy> spawnedEnemies;
 
-    [SerializeField] int waveNum = 0;
-
     private void Awake() {
         if(Instance != null) {
             Debug.LogError("More than 1 spawner...deleting this one");
@@ -27,17 +25,21 @@ public class EnemySpawner : MonoBehaviour {
     }
 
     private void Start() {
-        spawnedEnemies = new List<Enemy>();
+        spawnedEnemies = new List<Enemy>();        
         StartCoroutine(SpawnEnemies());
     }
 
     IEnumerator SpawnEnemies() {
-        yield return new WaitForSeconds(2);
+        yield return StartCoroutine(WaitForTime(2f));
+
         for(int i = 0; i < waves.Count; i++) {
             foreach(var c in waves[i].chunks) {
                 StartCoroutine(SpawnWaveChunk(c));
             }
-            yield return new WaitForSeconds(waves[i].GetChunkTime());
+
+            //check for game pause
+            yield return StartCoroutine(WaitForTime(waves[i].GetChunkTime()));
+
             while(spawnedEnemies.Count > 0) {
                 yield return null;
             }
@@ -59,7 +61,7 @@ public class EnemySpawner : MonoBehaviour {
     }
 
     IEnumerator SpawnWaveChunk(WaveChunk c) {
-        yield return new WaitForSeconds(c.spawnDelay);
+        yield return StartCoroutine(WaitForTime(c.spawnDelay));
         for(int i = 0; i < c.count; i++) {
             if(c.isBurst) {
                 for(int ii = 0; ii < c.burstNum; ii++) {
@@ -68,7 +70,22 @@ public class EnemySpawner : MonoBehaviour {
             }
             else
                 SpawnEnemy(c.enemy);
-            yield return new WaitForSeconds(1 / c.spawnRate);
+
+            //check for game pause
+            yield return StartCoroutine(WaitForTime(1 / c.spawnRate));
+        }
+    }
+
+    IEnumerator WaitForTime(float t) {
+        float endTime = t;
+        float s = 0;
+        while(s < endTime) {
+            if(PauseMenu.Instance.isPaused) {
+                yield return null;
+                continue;
+            }
+            s += Time.deltaTime;
+            yield return null;
         }
     }
 

@@ -40,6 +40,9 @@ public class UpgradeManager : MonoBehaviour {
     }
 
     private void Update() {
+        if(PauseMenu.Instance.isPaused)
+            return;
+
         if(upgradeTokens < 1) {
             upgradeText.gameObject.SetActive(false);
             return;

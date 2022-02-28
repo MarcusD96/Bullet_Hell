@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour {
 
-    public int baseHp, xpWorth, damage;
+    public int baseHp, xpWorth;
     public TextMeshProUGUI hpText;
     public XPStar xpPickUp;
     public GameObject explosionPrefab;
@@ -42,6 +42,9 @@ public class Enemy : MonoBehaviour {
     IEnumerator BurnEffect(float damage_) {
         isBurning = true;
         while(maxBurnTime > 0) {
+            if(PauseMenu.Instance.isPaused)
+                yield return null;
+
             float dt = Time.deltaTime;
             maxBurnTime -= dt;
             GetDamaged(damage_ * dt);
@@ -63,7 +66,7 @@ public class Enemy : MonoBehaviour {
     }
 
     protected void SpawnXP() {
-            var p = Instantiate(xpPickUp, transform.position, Quaternion.Euler(0, 0, Random.Range(0, 360)));
-            p.InitializePickUp(xpWorth);
+        var p = Instantiate(xpPickUp, transform.position, Quaternion.Euler(0, 0, Random.Range(0, 360)));
+        p.InitializePickUp(xpWorth);
     }
 }

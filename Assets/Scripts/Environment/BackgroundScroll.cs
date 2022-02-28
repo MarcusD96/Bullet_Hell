@@ -12,6 +12,9 @@ public class BackgroundScroll : MonoBehaviour {
     }
 
     private void Update() {
+        if(PauseMenu.Instance.isPaused)
+            return;
+
         Vector2 offset = new Vector2(Time.time * speed, 0);
         spriteRenderer.sharedMaterial.mainTextureOffset = offset;
     }

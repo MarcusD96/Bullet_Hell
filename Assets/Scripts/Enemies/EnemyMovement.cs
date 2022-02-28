@@ -29,6 +29,9 @@ public class EnemyMovement : MonoBehaviour {
     protected virtual void LateUpdate() {
         if(!player)
             player = FindObjectOfType<Player>();
+        if(PauseMenu.Instance.isPaused)
+            return;
+
         UpdatePlayerPosition();
         transform.Translate(direction * speed * Time.deltaTime);
         if(pivot) {

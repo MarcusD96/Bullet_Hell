@@ -154,6 +154,9 @@ public class StatsUI : MonoBehaviour {
     }
 
     private void Update() {
+        if(PauseMenu.Instance.isPaused)
+            return;
+
         if(Input.GetButtonDown("Stat Upgrade")) {
             if(isEnabled) {
                 CloseUpgrades();

@@ -12,6 +12,9 @@ public class EnemyLevel : MonoBehaviour {
     }
 
     void LateUpdate() {
+        if(PauseMenu.Instance.isPaused)
+            return;
+
         text.text = LevelStats.Level.ToString();
     }
 }

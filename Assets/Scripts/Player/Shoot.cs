@@ -14,6 +14,9 @@ public class Shoot : MonoBehaviour {
 
     // Update is called once per frame
     private void Update() {
+        if(PauseMenu.Instance.isPaused)
+            return;
+
         ShootInput();
         player.nextFire -= Time.deltaTime;
     }

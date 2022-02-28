@@ -19,6 +19,9 @@ public class Movement : MonoBehaviour {
     }
 
     private void Update() {
+        if(PauseMenu.Instance.isPaused)
+            return;
+
         RotateToTarget();
         MovementInput();
     }

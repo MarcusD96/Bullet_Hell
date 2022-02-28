@@ -4,12 +4,8 @@ using UnityEngine;
 
 public class EnemyShoot : MonoBehaviour {
 
-    public float fireRate;
-    public float projSpeed;
-    //public EnemyProjectile weapon;
     public Transform[] fireSpawns;
 
-    private float nextFire = 0;
     private Enemy enemyComp;
     private Player playerComp;
     private ProjectileAttack[] attacks;
@@ -26,6 +22,10 @@ public class EnemyShoot : MonoBehaviour {
     private void Update() {
         if(!playerComp)
             playerComp = FindObjectOfType<Player>();
+
+        if(PauseMenu.Instance.isPaused)
+            return;
+
         Shoot();
     }
 

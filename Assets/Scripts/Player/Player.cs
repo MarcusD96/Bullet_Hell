@@ -27,6 +27,9 @@ public class Player : MonoBehaviour {
     }
 
     private void LateUpdate() {
+        if(PauseMenu.Instance.isPaused)
+            return;
+
         RegenHP();
     }
 

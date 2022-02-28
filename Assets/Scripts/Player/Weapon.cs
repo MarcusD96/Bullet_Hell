@@ -40,6 +40,7 @@ public class Weapon : MonoBehaviour {
         speed = speed_;
         
         UpdateRotation();
+        originPosition = transform.position;
     }
 
     void Start() {
@@ -49,6 +50,9 @@ public class Weapon : MonoBehaviour {
     }
 
     protected virtual void Update() {
+        if(PauseMenu.Instance.isPaused)
+            return;
+
         float dt = Time.deltaTime;
         Vector3 vel = direction * speed;
         transform.position += vel * dt;
@@ -56,6 +60,9 @@ public class Weapon : MonoBehaviour {
     }
 
     void FixedUpdate() {
+        if(PauseMenu.Instance.isPaused)
+            return;
+
         if(Vector2.Distance(transform.position, originPosition) > projectileMaxDistance)
             Destroy(gameObject);
     }

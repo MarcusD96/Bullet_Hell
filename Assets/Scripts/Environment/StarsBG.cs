@@ -15,6 +15,9 @@ public class StarsBG : MonoBehaviour {
     }
 
     private void LateUpdate() {
+        if(PauseMenu.Instance.isPaused)
+            return;
+
         if(nextSpawn <= 0) {
             int starId = Random.Range(0, starList.Count);
 
@@ -45,6 +48,7 @@ public class StarsBG : MonoBehaviour {
 
     void ActivateStar(int id) {
         starList[id].gameObject.SetActive(true);
+        starList[id].transform.localScale = Vector3.one;
         starList[id].SetStar();
     }
 

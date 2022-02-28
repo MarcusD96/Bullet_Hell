@@ -10,6 +10,9 @@ public class GuidedBolt : Weapon {
     private bool hit = false;
 
     private void FixedUpdate() {
+        if(PauseMenu.Instance.isPaused)
+            return;
+
         FindEnemy();
         if(target) {
             FindLimitedRotation();

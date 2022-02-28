@@ -533,7 +533,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseHp: 3
   xpWorth: 1
-  damage: 1
   hpText: {fileID: 2383663372924999687}
   xpPickUp: {fileID: 6811539494057836143, guid: c18c7a339d267fe49a5692213a7210b9, type: 3}
   explosionPrefab: {fileID: 7496335483395040508, guid: d952ceb00db84d34ebacd7decdbc1424, type: 3}
@@ -550,8 +549,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0627ac1146563bb4585121343d65c818, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireRate: 0.25
-  projSpeed: 4
   fireSpawns:
   - {fileID: 7787655865549499205}
 --- !u!114 &-927894509482524758
@@ -584,4 +581,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireRate: 0.25
   projSpeed: 4
+  damage: 1
   projectilePrefab: {fileID: -3267392350015242947, guid: 3e33ee19ffcb6854eb4a512db145cded, type: 3}

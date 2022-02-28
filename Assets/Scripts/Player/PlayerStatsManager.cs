@@ -31,6 +31,9 @@ public class PlayerStatsManager : MonoBehaviour {
     }
 
     private void LateUpdate() {
+        if(PauseMenu.Instance.isPaused)
+            return;
+
         levelText.text = level.ToString();
         xpText.text = currentXP.ToString() + "/" + targetXP.ToString();
         xpBar.fillAmount = (float) currentXP / (float) targetXP;

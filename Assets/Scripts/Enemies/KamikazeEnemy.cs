@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class KamikazeEnemy : Enemy {
 
+    public int damage;
+
     Player p;
 
     private void OnTriggerEnter2D(Collider2D collision) {

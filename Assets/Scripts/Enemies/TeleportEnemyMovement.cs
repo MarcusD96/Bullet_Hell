@@ -17,13 +17,21 @@ public class TeleportEnemyMovement : EnemyMovement {
     protected override void LateUpdate() {
         if(!player)
             player = FindObjectOfType<Player>();
+        if(PauseMenu.Instance.isPaused)
+            return;
     }
 
     void Shake() {
+        if(PauseMenu.Instance.isPaused)
+            return;
+
         transform.position = originPosition + Random.insideUnitCircle * vibrateAmount;
     }
 
     void Teleport() {
+        if(PauseMenu.Instance.isPaused)
+            return;
+
         Vector2 playerPos;
 
         //warp to player position

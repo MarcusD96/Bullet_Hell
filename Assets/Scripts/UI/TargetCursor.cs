@@ -17,6 +17,9 @@ public class TargetCursor : MonoBehaviour {
     }
 
     private void LateUpdate() {
+        if(PauseMenu.Instance.isPaused)
+            return;
+
         if(!gm.useController) {
             MoveTargetToMouse();
         }

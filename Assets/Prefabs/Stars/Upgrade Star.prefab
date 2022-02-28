@@ -123,12 +123,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 7593162501952629784}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10d0a6855b9a81e44825edd8d285f4e6, type: 3}
+  m_Script: {fileID: 11500000, guid: c3546d26dff3b5a4b89c825209baf335, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   spriteR: {fileID: 2840440289203541725}
   points: 0
-  moveSpeed: 0.1
-  magnetizeSpeed: 5
-  pickupDistance: 0.8
-  magnetizeDistance: 1
+  moveSpeed: 0.5
+  magnetizeSpeed: 10
+  pickupDistance: 0.5
+  magnetizeDistance: 2

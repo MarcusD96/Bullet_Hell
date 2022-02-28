@@ -8,7 +8,7 @@ public class SpreadAttack : ProjectileAttack {
         if(base.Shoot(fireSpawns_)) {
             foreach(var f in fireSpawns_) {
                 var p = Instantiate(projectilePrefab, f.position, f.rotation);
-                p.Initialize(enemyShip.damage, enemyShoot.projSpeed ,f.right, f.rotation);
+                p.Initialize(damage, projSpeed ,f.right, f.rotation);
             }
             return true;
         }
