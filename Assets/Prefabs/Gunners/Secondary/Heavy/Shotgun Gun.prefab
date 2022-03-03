@@ -329,7 +329,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71c4022ab46b9a44e8105b737dd2ccdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet: {fileID: 3820641700866642961, guid: 345d921c345408245a7a33ceb92a61c0, type: 3}
+  weapon: {fileID: 3820641700866642961, guid: 345d921c345408245a7a33ceb92a61c0, type: 3}
   pivot: {fileID: 4411272211909083873}
 --- !u!58 &290060957378134038
 CircleCollider2D:

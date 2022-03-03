@@ -153,7 +153,6 @@ MonoBehaviour:
   hpText: {fileID: 4489051599298751246}
   fireSpawns:
   - {fileID: 8576835824266120145}
-  - {fileID: 6742453929637549488}
   upgradeEffect: {fileID: 4830556113380465519}
   level: 0
   xp: 0
@@ -202,7 +201,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71c4022ab46b9a44e8105b737dd2ccdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet: {fileID: 3820641700866642961, guid: fdeaa49394a94984e8d7760dccda23b4, type: 3}
+  weapon: {fileID: 3820641700866642961, guid: fdeaa49394a94984e8d7760dccda23b4, type: 3}
   pivot: {fileID: 4411272211909083873}
 --- !u!58 &290060957378134038
 CircleCollider2D:

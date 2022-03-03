@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour {
 
-    public float projectileMaxDistance, projectileMaxLifetime;
+    [Header("Base Weapon")]
+
+    public float projectileMaxDistance;
+    public float projectileMaxLifetime;
     public bool spreadVariation;
     [Range(0, 1)]
     public float variation;
@@ -25,7 +28,7 @@ public class Weapon : MonoBehaviour {
         }
         else
             direction = direction_;
-        
+
         UpdateRotation();
         originPosition = transform.position;
     }
@@ -38,7 +41,7 @@ public class Weapon : MonoBehaviour {
         else
             direction = direction_;
         speed = speed_;
-        
+
         UpdateRotation();
         originPosition = transform.position;
     }

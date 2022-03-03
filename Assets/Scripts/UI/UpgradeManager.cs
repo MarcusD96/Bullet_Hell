@@ -43,6 +43,9 @@ public class UpgradeManager : MonoBehaviour {
         if(PauseMenu.Instance.isPaused)
             return;
 
+        if(Input.GetKeyDown(KeyCode.Tab))
+            upgradeTokens += 1;
+
         if(upgradeTokens < 1) {
             upgradeText.gameObject.SetActive(false);
             return;

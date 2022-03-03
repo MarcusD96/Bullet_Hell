@@ -9222,7 +9222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e293de9b44c37c14293c1a5b1c3c68b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gunner: {fileID: -4323205949926386926, guid: 56b2f8e3ed1e27a41b4fdb3a501f0c74, type: 3}
+  gunner: {fileID: -4323205949926386926, guid: 879bb9a9cd2232a48a8e9cd36acd1ae5, type: 3}
   useController: 0
 --- !u!4 &948117601
 Transform:

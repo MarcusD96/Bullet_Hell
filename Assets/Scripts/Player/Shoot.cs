@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Shoot : MonoBehaviour {
 
-    public Weapon bullet;
+    public Weapon weapon;
     public Transform pivot;
 
     private Player player;
@@ -27,11 +27,11 @@ public class Shoot : MonoBehaviour {
         }
     }
 
-    private void Fire() {
+    protected virtual void Fire() {
         if(player.nextFire <= 0) {
 
             foreach(var f in player.fireSpawns) {
-                Weapon b = Instantiate(bullet, f.position, Quaternion.identity);
+                Weapon b = Instantiate(weapon, f.position, Quaternion.identity);
                 Vector2 dir = (f.position - transform.position).normalized;
                 b.Initialize_Penetrate(player.damage, player.projectileSpeed, player.penetration, dir, pivot.rotation);
             }

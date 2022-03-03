@@ -18,12 +18,13 @@ public class Enemy : MonoBehaviour {
     private void Start() {
         currentHp = baseHp * LevelStats.Level;
         xpWorth *= Mathf.CeilToInt(LevelStats.Level / 3.0f);
-        hpText.text = currentHp.ToString();
+        hpText.text = Mathf.Ceil(currentHp).ToString();
+        ;
     }
 
     public void GetDamaged(float damage_) {
         currentHp -= damage_;
-        hpText.text = currentHp.ToString("F0");
+        hpText.text = Mathf.Ceil(currentHp).ToString();
 
         if(currentHp <= 0)
             Die();
