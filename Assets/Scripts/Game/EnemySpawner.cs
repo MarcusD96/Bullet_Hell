@@ -24,13 +24,13 @@ public class EnemySpawner : MonoBehaviour {
         Instance = this;
     }
 
-    private void Start() {
+    public void StartSpawning() {
         spawnedEnemies = new List<Enemy>();        
         StartCoroutine(SpawnEnemies());
     }
 
     IEnumerator SpawnEnemies() {
-        yield return StartCoroutine(WaitForTime(2f));
+        yield return StartCoroutine(MyHelpers.WaitForTime(2f));
 
         for(int i = 0; i < waves.Count; i++) {
             foreach(var c in waves[i].chunks) {
@@ -38,13 +38,15 @@ public class EnemySpawner : MonoBehaviour {
             }
 
             //check for game pause
-            yield return StartCoroutine(WaitForTime(waves[i].GetChunkTime()));
+            yield return StartCoroutine(MyHelpers.WaitForTime(waves[i].GetChunkTime()));
 
             while(spawnedEnemies.Count > 0) {
                 yield return null;
             }
+            FindObjectOfType<BackgroundScroll>().GetNextBackground();
             LevelStats.Level++;
         }
+        SceneFader.Instance.FadeToScene(0);
     }
 
     bool leftSide = true;
@@ -57,11 +59,16 @@ public class EnemySpawner : MonoBehaviour {
         pos.y = Random.Range(-verticalBound, verticalBound);
         leftSide = !leftSide;
 
-        spawnedEnemies.Add(Instantiate(e, pos, Quaternion.identity));
+        var enemy = Instantiate(e, pos, Quaternion.identity);
+        enemy.transform.SetParent(GameObject.FindGameObjectWithTag("EnemyDump").transform);
+        spawnedEnemies.Add(enemy);
     }
 
     IEnumerator SpawnWaveChunk(WaveChunk c) {
-        yield return StartCoroutine(WaitForTime(c.spawnDelay));
+        yield return StartCoroutine(MyHelpers.WaitForTime(c.spawnDelay));
+
+        AsteroidSpawner.Instance.SpawnAsteroid();
+
         for(int i = 0; i < c.count; i++) {
             if(c.isBurst) {
                 for(int ii = 0; ii < c.burstNum; ii++) {
@@ -72,20 +79,7 @@ public class EnemySpawner : MonoBehaviour {
                 SpawnEnemy(c.enemy);
 
             //check for game pause
-            yield return StartCoroutine(WaitForTime(1 / c.spawnRate));
-        }
-    }
-
-    IEnumerator WaitForTime(float t) {
-        float endTime = t;
-        float s = 0;
-        while(s < endTime) {
-            if(PauseMenu.Instance.isPaused) {
-                yield return null;
-                continue;
-            }
-            s += Time.deltaTime;
-            yield return null;
+            yield return StartCoroutine(MyHelpers.WaitForTime(1f / c.spawnRate));
         }
     }
 

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
 
 public class Weapon : MonoBehaviour {
@@ -19,7 +18,7 @@ public class Weapon : MonoBehaviour {
 
     private Vector3 originPosition;
 
-    public void Initialize_Penetrate(float damage_, float speed_, int penetration_, Vector2 direction_, Quaternion rotation_) {
+    public void InitializeWithPenetrate(float damage_, float speed_, int penetration_, Vector2 direction_) {
         damage = damage_;
         speed = speed_;
         penetration = penetration_;
@@ -33,7 +32,7 @@ public class Weapon : MonoBehaviour {
         originPosition = transform.position;
     }
 
-    public void Initialize(int damage_, float speed_, Vector2 direction_, Quaternion rotation_) {
+    public void Initialize(int damage_, float speed_, Vector2 direction_) {
         damage = damage_;
         if(spreadVariation) {
             direction = VaryDirection(direction_, variation);
@@ -46,7 +45,7 @@ public class Weapon : MonoBehaviour {
         originPosition = transform.position;
     }
 
-    void Start() {
+    protected void Start() {
         if(projectileMaxLifetime <= 0)
             projectileMaxLifetime = 1;
         Destroy(gameObject, projectileMaxLifetime);
@@ -80,7 +79,6 @@ public class Weapon : MonoBehaviour {
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D collision) {
-        Debug.LogError("Add trigger script to: " + gameObject);
     }
 
     protected void UpdateRotation() {

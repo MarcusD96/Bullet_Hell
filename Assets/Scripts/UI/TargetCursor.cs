@@ -9,18 +9,18 @@ public class TargetCursor : MonoBehaviour {
     public GameObject target;
     public float moveSpeed;
 
-    GameManager gm;
-
     void Awake() {
         Cursor.visible = false;
-        gm = GetComponent<GameManager>();
     }
 
     private void LateUpdate() {
         if(PauseMenu.Instance.isPaused)
             return;
 
-        if(!gm.useController) {
+        if(!GameManager.Instance.IsStarted)
+            return;
+
+        if(!GameManager.Instance.useController) {
             MoveTargetToMouse();
         }
         else
@@ -40,7 +40,7 @@ public class TargetCursor : MonoBehaviour {
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         //set movement to mouse pos
-        target.transform.position = Vector2.Lerp(target.transform.position, mousePos, Time.deltaTime * moveSpeed);
+        target.transform.position = Vector2.Lerp(target.transform.position, mousePos, Time.unscaledDeltaTime * moveSpeed);
     }
 
     void MoveTargetToStick() {
@@ -54,6 +54,6 @@ public class TargetCursor : MonoBehaviour {
         if(pos.magnitude > 1f)
             pos.Normalize();
 
-        target.transform.Translate(moveSpeed * Time.deltaTime * pos);
+        target.transform.Translate(moveSpeed * Time.unscaledDeltaTime * pos);
     }
 }

@@ -60,8 +60,9 @@ public class StatsUI : MonoBehaviour {
                     break;
                 inst.hpLevel++;
                 s = inst.hpLevel;
-                player.UpdateLevels(true);
-                EventSystem.current.SetSelectedGameObject(hpButtons[s].gameObject);
+                player.UpdateLevels(true, false);
+                if(s < 10)
+                    EventSystem.current.SetSelectedGameObject(hpButtons[s].gameObject);
                 break;
             }
             case 1: { //regen
@@ -69,7 +70,8 @@ public class StatsUI : MonoBehaviour {
                     break;
                 inst.hpRegenLevel++;
                 s = inst.hpRegenLevel;
-                EventSystem.current.SetSelectedGameObject(regenButtons[s].gameObject);
+                if(s < 10)
+                    EventSystem.current.SetSelectedGameObject(regenButtons[s].gameObject);
                 break;
             }
             case 2: { //damage
@@ -77,7 +79,8 @@ public class StatsUI : MonoBehaviour {
                     break;
                 inst.damageLevel++;
                 s = inst.damageLevel;
-                EventSystem.current.SetSelectedGameObject(damageButtons[s].gameObject);
+                if(s < 10)
+                    EventSystem.current.SetSelectedGameObject(damageButtons[s].gameObject);
                 break;
             }
             case 3: { //firerate
@@ -85,7 +88,8 @@ public class StatsUI : MonoBehaviour {
                     break;
                 inst.fireRateLevel++;
                 s = inst.fireRateLevel;
-                EventSystem.current.SetSelectedGameObject(fireRateButtons[s].gameObject);
+                if(s < 10)
+                    EventSystem.current.SetSelectedGameObject(fireRateButtons[s].gameObject);
                 break;
             }
             case 4: { //penetration
@@ -93,7 +97,8 @@ public class StatsUI : MonoBehaviour {
                     break;
                 inst.penetrationLevel++;
                 s = inst.penetrationLevel;
-                EventSystem.current.SetSelectedGameObject(penetrationButtons[s].gameObject);
+                if(s < 10)
+                    EventSystem.current.SetSelectedGameObject(penetrationButtons[s].gameObject);
                 break;
             }
             case 5: { //movespeed
@@ -101,7 +106,8 @@ public class StatsUI : MonoBehaviour {
                     break;
                 inst.moveSpeedLevel++;
                 s = inst.moveSpeedLevel;
-                EventSystem.current.SetSelectedGameObject(moveSpeedButtons[s].gameObject);
+                if(s < 10)
+                    EventSystem.current.SetSelectedGameObject(moveSpeedButtons[s].gameObject);
                 break;
             }
             case 6: { //proj. speed
@@ -109,14 +115,15 @@ public class StatsUI : MonoBehaviour {
                     break;
                 inst.projectileSpeedLevel++;
                 s = inst.projectileSpeedLevel;
-                EventSystem.current.SetSelectedGameObject(projSpeedButtons[s].gameObject);
+                if(s < 10)
+                    EventSystem.current.SetSelectedGameObject(projSpeedButtons[s].gameObject);
                 break;
             }
             default:
                 break;
         }
 
-        player.UpdateLevels(false);
+        player.UpdateLevels(false, false);
         PlayerStatsManager.Instance.CanSubtractLevel(s);
         UpdateStats();
     }
@@ -167,13 +174,16 @@ public class StatsUI : MonoBehaviour {
     }
 
     void OpenUpgrades() {
+        if(!GameManager.Instance.IsStarted)
+            return;
+
         UpdateStats();
         isEnabled = true;
         Time.timeScale = 0.2f;
         buttonGroup.SetActive(true);
         EventSystem.current.SetSelectedGameObject(null);
-        if(FindObjectOfType<GameManager>().useController) {
-            EventSystem.current.SetSelectedGameObject(hpButtons[0].gameObject); 
+        if(GameManager.Instance.useController) {
+            EventSystem.current.SetSelectedGameObject(hpButtons[0].gameObject);
         }
         Cursor.visible = true;
     }

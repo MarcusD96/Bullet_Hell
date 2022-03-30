@@ -4,6 +4,7 @@ using UnityEngine;
 public class LaserShoot : MonoBehaviour {
 
     public Transform pivot;
+    public string shootStartSound, shootLoopSound, shootEndSound;
     public LineRenderer lr;
     public LayerMask enemyLayer;
     public ParticleSystem hitEffect, barrelEffect;
@@ -25,6 +26,9 @@ public class LaserShoot : MonoBehaviour {
         if(PauseMenu.Instance.isPaused)
             return;
 
+        if(player.IsDead)
+            return;
+
         ShootInput();
         player.nextFire -= Time.deltaTime;
     }
@@ -35,20 +39,25 @@ public class LaserShoot : MonoBehaviour {
         }
         else
             LaserOff();
+
     }
 
     private void LaserOff() {
         if(hitEffect.isPlaying) {
+            AudioManager.Instance.PlaySound(shootEndSound);
             hitEffect.Stop();
             barrelEffect.Stop();
+            if(shootingSoundIndex >= 0)
+                AudioManager.Instance.StopSound(shootingSoundIndex);
         }
+
         hitEffect.gameObject.SetActive(false);
         barrelEffect.gameObject.SetActive(false);
 
         if(!lr.enabled)
             return;
 
-        if(lr.startWidth <= 0f) {
+        if(lr.startWidth <= 0.01f) {
             lr.startWidth = lr.endWidth = 0;
             lr.enabled = false;
             return;
@@ -62,9 +71,13 @@ public class LaserShoot : MonoBehaviour {
         lr.startWidth = lr.endWidth = Mathf.Lerp(scale, 0, shrinkSpeed * Time.deltaTime);
     }
 
+    int shootingSoundIndex = -1;
     void GrowLaser() {
-        if(!lr.enabled)
+        if(!lr.enabled) {
+            AudioManager.Instance.PlaySound(shootStartSound);
+            shootingSoundIndex = AudioManager.Instance.PlayLoopedSound(shootLoopSound);
             lr.enabled = true;
+        }
 
         if(lr.startWidth >= 0.2f) {
             lr.startWidth = lr.endWidth = 0.2f;
@@ -137,7 +150,10 @@ public class LaserShoot : MonoBehaviour {
 
         //damage all enemies in raycast array
         foreach(var e in enemies) {
-            e.collider.GetComponent<Enemy>().GetDamaged(player.damage);
+            if(e.collider.TryGetComponent(out Enemy ee))
+                ee.GetDamaged(player.damage);
+            else if(e.collider.TryGetComponent(out Asteroid a))
+                a.Damage(player.damage);
         }
     }
 }

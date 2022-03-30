@@ -90,6 +90,37 @@ Transform:
   m_Father: {fileID: 1417738079268263803}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -54}
+--- !u!1 &2606111070858069113
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7847786609709515191}
+  m_Layer: 10
+  m_Name: Pivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7847786609709515191
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2606111070858069113}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1417738079268263803}
+  m_Father: {fileID: 894503264093864227}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2886083866164293539
 GameObject:
   m_ObjectHideFlags: 0
@@ -183,8 +214,8 @@ Transform:
   - {fileID: 3586040572925387357}
   - {fileID: 6869521118692475817}
   - {fileID: 6256561336730049820}
-  m_Father: {fileID: 894503264093864227}
-  m_RootOrder: 1
+  m_Father: {fileID: 7847786609709515191}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8190963758071747662
 SpriteRenderer:
@@ -488,7 +519,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3461478164381159403}
-  - {fileID: 1417738079268263803}
+  - {fileID: 7847786609709515191}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -506,11 +537,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseHp: 5
   xpWorth: 3
-  damage: 1
   hpText: {fileID: 2383663372924999687}
   xpPickUp: {fileID: 6811539494057836143, guid: c18c7a339d267fe49a5692213a7210b9, type: 3}
   explosionPrefab: {fileID: 7496335483395040508, guid: d952ceb00db84d34ebacd7decdbc1424, type: 3}
   explosionScale: 1
+  deathSound: Boom
 --- !u!114 &-1036931103746806657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -523,8 +554,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0627ac1146563bb4585121343d65c818, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireRate: 2
-  projSpeed: 5
   fireSpawns:
   - {fileID: 3304203951970687884}
   - {fileID: 2342285326520650053}
@@ -543,12 +572,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1f752e493f04704d87e819dc1af40ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveMode: 0
   speed: 1
   detectionRate: 2.5
-  detectionVariation: 0.75
-  pivot: {fileID: 0}
-  vibrateAmount: 0.08
-  warpDistance: 2
+  detectionVariation: 0
+  pivot: {fileID: 7847786609709515191}
+  vibrateAmount: 0.09
+  warpDistance: 1.75
 --- !u!58 &1676441553191416886
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -599,5 +629,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireRate: 0.4
+  burstNum: 3
   projSpeed: 3
+  damage: 1
   projectilePrefab: {fileID: -3267392350015242947, guid: 3e33ee19ffcb6854eb4a512db145cded, type: 3}

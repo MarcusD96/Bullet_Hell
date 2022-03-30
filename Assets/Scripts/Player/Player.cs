@@ -1,12 +1,15 @@
 ﻿
 using UnityEngine;
 using TMPro;
+using System.Collections;
 
 public class Player : MonoBehaviour {
 
     public TextMeshProUGUI hpText;
     public Transform[] fireSpawns;
     public ParticleSystem upgradeEffect;
+    public GameObject deathExplosion;
+    public string deathSound, hitSound;
 
     [HideInInspector]
     public int level, xp, penetration;
@@ -21,14 +24,23 @@ public class Player : MonoBehaviour {
 
     public float nextFire = 0;
 
+    private SpriteRenderer spriteRenderer;
+
+    public bool IsDead { get; private set; } = false;
+
+    private void Awake() {
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+    }
+
     private void Start() {
-        UpdateLevels(true);
+        UpdateLevels(true, true);
         nextFire = 0;
     }
 
     private void LateUpdate() {
         if(PauseMenu.Instance.isPaused)
             return;
+
 
         RegenHP();
     }
@@ -37,40 +49,80 @@ public class Player : MonoBehaviour {
         currentHp = Mathf.Clamp(currentHp, 0, currentHp);
         hpText.text = Mathf.FloorToInt(currentHp).ToString();
 
+        if(IsDead)
+            return;
+
         if(currentHp == maxHP)
             return;
+
         currentHp += hpRegen;
         if(currentHp > maxHP)
             currentHp = maxHP;
     }
 
     public void TakeDamage(float damage_) {
+        if(IsDead)
+            return;
+
         currentHp -= damage_;
+        if(currentHp < 1) {
+            DoDie();
+            return;
+        }
+        AudioManager.Instance.PlaySound(hitSound);
 
-
-        if(currentHp < 1)
-            Die();
+        StartCoroutine(DamageFlash());
     }
 
-    private void Die() {
-        print("TODO: implement new game screen");
+    IEnumerator DamageFlash() {
+        spriteRenderer.color = Color.red;
+        yield return StartCoroutine(MyHelpers.WaitForTime(0.05f));
+        spriteRenderer.color = Color.white;
+    }
+
+    private void DoDie() {
+        IsDead = true;
         LevelStats.Level = 1;
-        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        StartCoroutine(Die());
     }
 
-    public void UpdateLevels(bool resetHp) {
+    IEnumerator Die() {
+        foreach(Transform t in transform) {
+            Destroy(t.gameObject);
+        }
+
+        for(int i = 0; i < 5; i++) {
+            AudioManager.Instance.PlaySound(deathSound);
+            var e = Instantiate(deathExplosion, Random.insideUnitSphere + transform.position, Quaternion.Euler(0, 0, Random.Range(0, 360)));
+            e.transform.localScale = Vector2.one * Random.Range(0.25f, 1.5f);
+            yield return StartCoroutine(MyHelpers.WaitForTime(0.4f));
+        }
+
+        yield return StartCoroutine(MyHelpers.WaitForTime(0.7f));
+        AudioManager.Instance.PlaySound(deathSound);
+        var ee = Instantiate(deathExplosion, transform.position, Quaternion.Euler(0, 0, Random.Range(0, 360)));
+        ee.transform.localScale = Vector2.one * 5;
+
+        yield return StartCoroutine(MyHelpers.WaitForTime(3f));
+
+        if(SceneFader.Instance)
+            SceneFader.Instance.FadeToScene(0);
+    }
+
+    public void UpdateLevels(bool resetHp, bool init) {
         var stats = PlayerStatsManager.Instance;
         if(resetHp) {
-            currentHp = maxHP = Mathf.CeilToInt((1 + (stats.hpLevel * 0.25f)) * baseHP);
+            currentHp = maxHP = Mathf.CeilToInt((1 + (stats.hpLevel * 0.4f)) * baseHP);
             hpText.text = currentHp.ToString();
         }
         hpRegen = stats.hpRegenLevel * Time.deltaTime / 3;
         damage = Mathf.CeilToInt(baseDamage * stats.damageLevel) + baseDamage;
-        fireRate = (1 + (stats.fireRateLevel * 0.5f)) * baseFireRate;
+        fireRate = (1 + (stats.fireRateLevel * 0.2f)) * baseFireRate;
         penetration = stats.penetrationLevel + basePenetration;
-        projectileSpeed = (1 + (stats.projectileSpeedLevel * 0.5f)) * baseProjectileSpeed;
-        moveSpeed = (1 + (stats.moveSpeedLevel * 0.5f)) * baseMoveSpeed;
+        projectileSpeed = (1 + (stats.projectileSpeedLevel * 0.2f)) * baseProjectileSpeed;
+        moveSpeed = (1 + (stats.moveSpeedLevel * 0.2f)) * baseMoveSpeed;
 
-        upgradeEffect.Play();
+        if(!init)
+            upgradeEffect.Play();
     }
 }

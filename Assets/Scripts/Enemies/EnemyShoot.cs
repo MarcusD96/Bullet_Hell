@@ -5,17 +5,14 @@ using UnityEngine;
 public class EnemyShoot : MonoBehaviour {
 
     public Transform[] fireSpawns;
-
-    private Enemy enemyComp;
     private Player playerComp;
     private ProjectileAttack[] attacks;
 
     private void Awake() {
-        enemyComp = GetComponent<Enemy>();
         attacks = GetComponents<ProjectileAttack>();
     }
 
-    private void Start() {        
+    private void Start() {
         playerComp = FindObjectOfType<Player>();
     }
 

@@ -12,7 +12,7 @@ public class Flame : Weapon {
     bool hit = false;
     Enemy e;
 
-    private void Start() {
+    private new void Start() {
         int r = Random.Range(0, fireMats.Length);
         sprite.GetComponent<SpriteRenderer>().sharedMaterial = fireMats[r];
         transform.localScale *= Random.Range(0.5f, 1.5f);

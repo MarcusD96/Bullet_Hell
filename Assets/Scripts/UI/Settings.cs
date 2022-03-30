@@ -1,18 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
+using UnityEngine.UI;
 
-public class Settings : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+public class Settings : MonoBehaviour {
+
+    public Toggle useControllerToggle;
+
+    private void Awake() {
+        useControllerToggle.isOn = GameManager.Instance.useController;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public void UseController() {
+        GameManager.Instance.useController = useControllerToggle.isOn;
     }
+
 }

@@ -4,7 +4,13 @@ using UnityEngine;
 [System.Serializable]
 public class PickUpStar : MonoBehaviour {
 
+
+
     public SpriteRenderer spriteR;
+    public float radius;
+
+    public string pickUpSound;
+
     public int points;
     public float moveSpeed;
     public float magnetizeSpeed;
@@ -17,11 +23,18 @@ public class PickUpStar : MonoBehaviour {
 
     protected Player player;
 
-    public virtual void InitializePickUp(int points_) => points = points_;
+    public virtual void InitializePickUp(int points_) {
+        if(points <= 0) {
+            points = 1;
+            print("less than 0 points");
+            return;
+        }
+        points = points_;
+    }
 
     private void Start() {
         rotateSpeed = Random.Range(7f, 10f);
-        direction = Random.insideUnitCircle.normalized;
+        direction = ((Random.insideUnitSphere * 3) - transform.position).normalized;
         baseMoveSpeed = moveSpeed;
         camExtents = GetCameraExtents();
     }
@@ -47,19 +60,26 @@ public class PickUpStar : MonoBehaviour {
 
     private void CheckBorder() {
         //top/bottom
-        if(transform.position.y >= camExtents.y || transform.position.y <= -camExtents.y) {
+        if(transform.position.y + radius >= camExtents.y || transform.position.y - radius <= -camExtents.y) {
             direction.y *= -1f;
         }
 
         //left/right
-        if(transform.position.x <= -camExtents.x || transform.position.x >= camExtents.x) {
+        if(transform.position.x - radius <= -camExtents.x || transform.position.x + radius >= camExtents.x) {
             direction.x *= -1f;
         }
+
+        Vector3 pos = transform.position;
+        pos.x = Mathf.Clamp(pos.x, -camExtents.x + radius, camExtents.x - radius);
+        pos.y = Mathf.Clamp(pos.y, -camExtents.y + radius, camExtents.y - radius);
+        transform.position = pos;
     }
 
     public virtual bool PickUp() {
-        if(Vector2.Distance(transform.position, UpgradeManager.Instance.CurrentGunner.transform.position) <= pickupDistance)
+        if(Vector2.Distance(transform.position, UpgradeManager.Instance.CurrentGunner.transform.position) <= pickupDistance) {
+            AudioManager.Instance.PlaySound(pickUpSound);
             return true;
+        }
         return false;
     }
 
@@ -71,5 +91,11 @@ public class PickUpStar : MonoBehaviour {
         }
         else
             moveSpeed = Mathf.Lerp(moveSpeed, baseMoveSpeed, Time.deltaTime * 5f);
+    }
+
+    [ExecuteInEditMode]
+    private void OnDrawGizmos() {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, radius);
     }
 }

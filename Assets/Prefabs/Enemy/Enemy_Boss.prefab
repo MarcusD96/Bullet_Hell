@@ -516,6 +516,7 @@ MonoBehaviour:
   xpPickUp: {fileID: 6811539494057836143, guid: c18c7a339d267fe49a5692213a7210b9, type: 3}
   explosionPrefab: {fileID: 7496335483395040508, guid: d952ceb00db84d34ebacd7decdbc1424, type: 3}
   explosionScale: 2
+  deathSound: Boom
   upgradeStar: {fileID: -1531893813464338307, guid: 0350dd254c94afb45b43388a45e2488d, type: 3}
   babySpawns: {fileID: 3204078848763761032, guid: 8015285fef24bf8488b523251ac0d8a7, type: 3}
   numSpawn: 6
@@ -554,6 +555,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33ac5e90e4cc6964ab1c47a2413cf156, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveMode: 0
   speed: 0.25
   detectionRate: 1
   detectionVariation: 0.5
@@ -607,9 +609,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a300928b057194d9da5dc3d7c48f33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireRate: 1.5
+  fireRate: 0.85
+  burstNum: 1
   projSpeed: 3
-  damage: 2
+  damage: 1
   projectilePrefab: {fileID: -3267392350015242947, guid: 3e33ee19ffcb6854eb4a512db145cded, type: 3}
 --- !u!114 &7912712457709458774
 MonoBehaviour:
@@ -623,9 +626,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fa5b386e18cf954f9fe14f41d470834, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireRate: 2
-  projSpeed: 8
-  damage: 5
+  fireRate: 1
+  burstNum: 1
+  projSpeed: 7.5
+  damage: 2
   projectilePrefab: {fileID: -3267392350015242947, guid: beed03748f2f8e74e86db1c320005349, type: 3}
 --- !u!1 &8026004199046901948
 GameObject:

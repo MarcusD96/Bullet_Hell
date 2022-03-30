@@ -10,24 +10,38 @@ public class Enemy : MonoBehaviour {
     public XPStar xpPickUp;
     public GameObject explosionPrefab;
     public float explosionScale = 1;
+    public string deathSound;
 
     private float currentHp;
+    private SpriteRenderer spriteRenderer;
 
     protected bool isDead = false, isBurning = false;
+
+    private void Awake() {
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+    }
 
     private void Start() {
         currentHp = baseHp * LevelStats.Level;
         xpWorth *= Mathf.CeilToInt(LevelStats.Level / 3.0f);
         hpText.text = Mathf.Ceil(currentHp).ToString();
-        ;
+        name = "Enemy_" + Random.Range(0, 10000);
     }
 
     public void GetDamaged(float damage_) {
         currentHp -= damage_;
         hpText.text = Mathf.Ceil(currentHp).ToString();
 
+        StartCoroutine(DamageFlash());
+
         if(currentHp <= 0)
             Die();
+    }
+
+    IEnumerator DamageFlash() {
+        spriteRenderer.color = Color.red;
+        yield return StartCoroutine(MyHelpers.WaitForTime(0.05f));
+        spriteRenderer.color = Color.white;
     }
 
     public void Burn(float damage_, float time_) {
@@ -61,6 +75,7 @@ public class Enemy : MonoBehaviour {
             EnemySpawner.Instance.RemoveEnemy(this);
             var e = Instantiate(explosionPrefab, transform.position, Quaternion.Euler(0, 0, Random.Range(0, 360)));
             e.transform.localScale = Vector2.one * explosionScale;
+            AudioManager.Instance.PlaySound(deathSound);
             Destroy(e, 1.5f);
             Destroy(gameObject);
         }

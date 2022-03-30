@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
 
 public class TeleportEnemyMovement : EnemyMovement {
@@ -10,8 +9,8 @@ public class TeleportEnemyMovement : EnemyMovement {
 
     private void Start() {
         originPosition = transform.position;
-        InvokeRepeating("Shake", 0, 0.1f);
-        InvokeRepeating("Teleport", 0, detectionRate + Random.Range(-detectionVariation, detectionVariation));
+        InvokeRepeating(nameof(Shake), 0, 0.1f);
+        Invoke(nameof(Teleport), detectionRate + Random.Range(-detectionVariation, detectionVariation));
     }
 
     protected override void LateUpdate() {
@@ -33,20 +32,11 @@ public class TeleportEnemyMovement : EnemyMovement {
             return;
 
         Vector2 playerPos;
-
-        //warp to player position
         playerPos = player.transform.position;
-        transform.position = playerPos;
 
-        //move away from player in random direction
-        Vector2 warpPos = playerPos + (Vector2.up * warpDistance);
-        Vector3 dir = warpPos - playerPos;
-        int angle = Random.Range(0, 360);
-        dir.x = (dir.x * Mathf.Cos(angle)) - (dir.y * Mathf.Sin(angle));
-        dir.y = (dir.x * Mathf.Sin(angle)) + (dir.y * Mathf.Cos(angle));
-        transform.position += dir;
+        originPosition = transform.position = playerPos + (Random.insideUnitCircle * warpDistance);        
+        pivot.rotation = MyHelpers.RandomZRotation;
 
-        //update origin position
-        originPosition = transform.position;
+        Invoke(nameof(Teleport), detectionRate + Random.Range(-detectionVariation, detectionVariation));
     }
 }

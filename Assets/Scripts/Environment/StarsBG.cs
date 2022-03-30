@@ -6,17 +6,21 @@ public class StarsBG : MonoBehaviour {
 
     public Star[] stars;
     public float spawnRate;
+    public int poolSize;
 
     private float nextSpawn = 0;
     List<Star> starList = new List<Star>();
 
     private void Start() {
-        StartCoroutine(CreateStarPool(10));
+        PopulateScreen();
+        StartCoroutine(CreateStarPool());
     }
 
     private void LateUpdate() {
-        if(PauseMenu.Instance.isPaused)
-            return;
+        if(PauseMenu.Instance) {
+            if(PauseMenu.Instance.isPaused)
+                return;
+        }
 
         if(nextSpawn <= 0) {
             int starId = Random.Range(0, starList.Count);
@@ -26,6 +30,19 @@ public class StarsBG : MonoBehaviour {
             nextSpawn = 1 / spawnRate;
         }
         nextSpawn -= Time.deltaTime;
+    }
+
+    void PopulateScreen() {
+        for(int i = 0; i < 15; i++) {
+            int s = Random.Range(0, stars.Length - 1);
+            var star_ = CreateStar(s, true);
+            RandomizeStar(star_.gameObject);
+
+            Vector2 randPos = new Vector2(Random.Range(-9f, 9f), Random.Range(-4.5f, 4.5f));
+            star_.transform.position = randPos;
+
+            starList.Add(star_);
+        }
     }
 
     void CheckStar(int id) {
@@ -39,25 +56,53 @@ public class StarsBG : MonoBehaviour {
             id++;
             if(id >= starList.Count)
                 id = 0;
+
             fallback++;
-            if(fallback > 20)
+
+            //create new star
+            if(fallback > poolSize) {
+                int i = Random.Range(0, stars.Length - 1);
+                RandomizeStar(CreateStar(i, true).gameObject);
                 break;
+            }
         }
         ActivateStar(id);
     }
 
     void ActivateStar(int id) {
-        starList[id].gameObject.SetActive(true);
-        starList[id].transform.localScale = Vector3.one;
-        starList[id].SetStar();
+        var s = starList[id];
+
+        s.gameObject.SetActive(true);
+        s.transform.localScale = Vector3.one;
+
+        RandomizeStar(s.gameObject);
     }
 
-    IEnumerator CreateStarPool(int num) {
-        foreach(var s in stars) {
-            for(int i = 0; i < num; i++) {
-                Star g = Instantiate(s, transform);
-                g.gameObject.SetActive(false);
-                starList.Add(g);
+    void RandomizeStar(GameObject star_) {
+
+        Vector2 pos = star_.transform.position;
+        pos.x = 10;
+        pos.y = Random.Range(-4.5f, 4.5f);
+        star_.transform.position = pos;
+
+        Vector3 euler = star_.transform.rotation.eulerAngles;
+        euler.z = Random.Range(0, 360);
+        star_.transform.rotation = Quaternion.Euler(euler);
+
+        star_.transform.localScale *= Random.Range(0.25f, 4f);
+    }
+
+    Star CreateStar(int starID_, bool active_) {
+        Star g = Instantiate(stars[starID_], transform);
+        g.gameObject.SetActive(active_);
+        starList.Add(g);
+        return g;
+    }
+
+    IEnumerator CreateStarPool() {
+        for(int i = 0; i < stars.Length; i++) {
+            for(int ii = 0; ii < poolSize; ii++) {
+                CreateStar(i, false);
                 yield return null;
             }
         }

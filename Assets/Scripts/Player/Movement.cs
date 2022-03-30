@@ -1,4 +1,5 @@
 ﻿
+using System.Collections;
 using UnityEngine;
 
 public class Movement : MonoBehaviour {
@@ -9,12 +10,12 @@ public class Movement : MonoBehaviour {
     public Transform pivot;
 
     private Player player;
-    private TrailRenderer trailRendererComp;
+    private TrailRenderer t;
     private Transform target;
 
     private void Awake() {
         player = GetComponent<Player>();
-        trailRendererComp = GetComponent<TrailRenderer>();
+        t = GetComponent<TrailRenderer>();
         target = FindObjectOfType<TargetCursor>().target.transform;
     }
 
@@ -22,12 +23,19 @@ public class Movement : MonoBehaviour {
         if(PauseMenu.Instance.isPaused)
             return;
 
+        if(player.IsDead)
+            return;
+
+        t.time = 1f / player.moveSpeed * 1.5f ;
+
         RotateToTarget();
         MovementInput();
     }
 
-    public float speed;
     private void MovementInput() {
+        if(isKnockback)
+            return;
+
         float x = Input.GetAxis("Horizontal");
         float y = Input.GetAxis("Vertical");
         Vector2 dir = new Vector2(x, y);
@@ -39,6 +47,26 @@ public class Movement : MonoBehaviour {
         CheckEdges();
     }
 
+    bool isKnockback = false;
+    public void Knockback(Vector2 direction_, float magnitude_, float time_) {
+        if(isKnockback)
+            return;
+        StartCoroutine(DoKnockBack(direction_, magnitude_, time_));
+    }
+
+    IEnumerator DoKnockBack(Vector2 direction_, float magnituide_, float time_) {
+        isKnockback = true;
+
+        float endTime = Time.time + time_;
+
+        while(Time.time < endTime) {
+            transform.Translate(magnituide_ * Time.deltaTime * direction_);
+            yield return null;
+        }
+
+        isKnockback = false;
+    }
+
     private void RotateToTarget() {
         pivot.right = target.position - pivot.position;
     }
@@ -48,32 +76,32 @@ public class Movement : MonoBehaviour {
 
         if(pos.x < -screenWidth) {
             pos.x = screenWidth;
-            trailRendererComp.emitting = false;
-            Invoke("DelayTrail", trailRendererComp.time * 2);
+            t.emitting = false;
+            Invoke(nameof(DelayTrail), t.time * 2);
         }
 
-        if(pos.x > screenWidth) {
+        else if(pos.x > screenWidth) {
             pos.x = -screenWidth;
-            trailRendererComp.emitting = false;
-            Invoke("DelayTrail", trailRendererComp.time * 2);
+            t.emitting = false;
+            Invoke(nameof(DelayTrail), t.time * 2);
         }
 
-        if(pos.y < -screenHeight) {
+        else if(pos.y < -screenHeight) {
             pos.y = screenHeight;
-            trailRendererComp.emitting = false;
-            Invoke("DelayTrail", trailRendererComp.time * 2);
+            t.emitting = false;
+            Invoke(nameof(DelayTrail), t.time * 2);
         }
 
-        if(pos.y > screenHeight) {
+        else if(pos.y > screenHeight) {
             pos.y = -screenHeight;
-            trailRendererComp.emitting = false;
-            Invoke("DelayTrail", trailRendererComp.time * 2);
+            t.emitting = false;
+            Invoke(nameof(DelayTrail), t.time * 2);
         }
 
         transform.position = pos;
     }
 
     void DelayTrail() {
-        trailRendererComp.emitting = true;
+        t.emitting = true;
     }
 }

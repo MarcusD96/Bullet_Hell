@@ -621,6 +621,7 @@ MonoBehaviour:
   xpPickUp: {fileID: 6811539494057836143, guid: c18c7a339d267fe49a5692213a7210b9, type: 3}
   explosionPrefab: {fileID: 7496335483395040508, guid: d952ceb00db84d34ebacd7decdbc1424, type: 3}
   explosionScale: 1
+  deathSound: Boom
 --- !u!114 &-1036931103746806657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -648,6 +649,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33ac5e90e4cc6964ab1c47a2413cf156, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveMode: 0
   speed: 0.5
   detectionRate: 3
   detectionVariation: 0.5
@@ -665,6 +667,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireRate: 0.75
+  burstNum: 1
   projSpeed: 3.5
   damage: 1
   projectilePrefab: {fileID: -3267392350015242947, guid: 134f7948bd68b8a46bcb6d47cf9f274b, type: 3}

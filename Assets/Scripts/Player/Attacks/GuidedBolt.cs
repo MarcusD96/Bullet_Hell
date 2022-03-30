@@ -6,17 +6,23 @@ public class GuidedBolt : Weapon {
 
     public float maxAngularSpeed;
 
-    private Enemy target, hitEnemy;
+    private GameObject target;
     private bool hit = false;
+    private List<GameObject> hitEnemies = new List<GameObject>();
+
+    new void Start() {
+        base.Start();
+        maxAngularSpeed = speed * 30;
+    }
 
     private void FixedUpdate() {
         if(PauseMenu.Instance.isPaused)
             return;
 
         FindEnemy();
-        if(target) {
+
+        if(target)
             FindLimitedRotation();
-        }
     }
 
     void FindLimitedRotation() {
@@ -46,39 +52,65 @@ public class GuidedBolt : Weapon {
     }
 
     protected override void OnTriggerEnter2D(Collider2D collision) {
-        if(collision.TryGetComponent(out hitEnemy)) {
+        if(collision.TryGetComponent(out Enemy e)) {
             if(!hit) {
                 if(penetration < 2) {
                     hit = true;
-                    hitEnemy.GetDamaged(damage);
+                    e.GetDamaged(damage);
                     Destroy(gameObject);
                 }
                 else {
-                    hitEnemy.GetDamaged(damage);
+                    e.GetDamaged(damage);
                     penetration--;
                 }
+                hitEnemies.Add(e.gameObject);
+                target = null;
+            }
+        }
+        if(collision.TryGetComponent(out Asteroid a)) {
+            if(!hit) {
+                if(penetration < 2) {
+                    hit = true;
+                    a.Damage(damage);
+                    Destroy(gameObject);
+                }
+                else {
+                    a.Damage(damage);
+                    penetration--;
+                }
+                hitEnemies.Add(a.gameObject);
+                target = null;
             }
         }
     }
 
     void FindEnemy() {
-        if(target == null) {
-            //find closest enemy
-            float closestDistance = float.MaxValue;
-            Enemy closestEnemy = null;
+        //find closest enemy
+        float closestDistance = 100;
+        GameObject closestHitable = null;
 
-            foreach(var e in EnemySpawner.Instance.GetSpawnedEnemies()) {
-                if(e == null)
-                    continue;
-                var d = Vector2.Distance(e.transform.position, transform.position);
-                if(d < closestDistance) {
-                    d = closestDistance;
-                    closestEnemy = e;
-                }
-            }
-
-            if(closestEnemy)
-                target = closestEnemy;
+        List<GameObject> hitables = new List<GameObject>();
+        foreach(var e in EnemySpawner.Instance.GetSpawnedEnemies()) {
+            hitables.Add(e.gameObject);
         }
+        foreach(var a in AsteroidSpawner.Instance.GetAsteroids()) {
+            hitables.Add(a.gameObject);
+        }
+
+        foreach(var h in hitables) {
+            if(h == null)
+                continue;
+            if(hitEnemies.Contains(h))
+                continue;
+
+            var d = Vector2.Distance(h.transform.position, transform.position);
+            if(d < closestDistance) {
+                closestDistance = d;
+                closestHitable = h;
+            }
+        }
+
+        if(closestHitable)
+            target = closestHitable;
     }
 }

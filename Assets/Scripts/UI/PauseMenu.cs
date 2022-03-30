@@ -1,5 +1,6 @@
 ﻿
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PauseMenu : MonoBehaviour {
 
@@ -21,35 +22,55 @@ public class PauseMenu : MonoBehaviour {
     bool isSettingsOpen = false;
 
     //settings
-    public GameObject pausePanel, settingsPanel;
+    public GameObject pauseMenu, settingsMenu;
+
+    //buttons
+    public GameObject resumeButton, controllerToggle;
 
     private void Start() {
-        pausePanel.SetActive(false);
-        settingsPanel.SetActive(false);
+        pauseMenu.SetActive(false);
+        settingsMenu.SetActive(false);
     }
 
     private void Update() {
-        if(Input.GetButtonDown ("Pause"))
+        if(Input.GetButtonDown("Pause"))
             TogglePause();
     }
 
     public void TogglePause() {
         isSettingsOpen = false;
-        settingsPanel.SetActive(isSettingsOpen);
+        settingsMenu.SetActive(isSettingsOpen);
+        AudioManager.Instance.PlaySound("Menu Click");
 
         isPaused = !isPaused;
         Cursor.visible = isPaused;
         Time.timeScale = 1;
-        pausePanel.SetActive(isPaused);
+        pauseMenu.SetActive(isPaused);
+
+        EventSystem.current.SetSelectedGameObject(null);
+        if(GameManager.Instance.useController)
+            EventSystem.current.SetSelectedGameObject(resumeButton);
     }
 
     public void ToggleSettings() {
         isSettingsOpen = !isSettingsOpen;
-        settingsPanel.SetActive(isSettingsOpen);
+        settingsMenu.SetActive(isSettingsOpen);
+        pauseMenu.SetActive(!isSettingsOpen);
+
+        EventSystem.current.SetSelectedGameObject(null);
+        if(GameManager.Instance.useController) {
+            if(isSettingsOpen)
+                EventSystem.current.SetSelectedGameObject(controllerToggle);
+            else
+                EventSystem.current.SetSelectedGameObject(resumeButton);
+        }
     }
 
     public void Quit() {
+#if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
-
 }
