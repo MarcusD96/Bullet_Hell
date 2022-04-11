@@ -25,7 +25,7 @@ public class EnemySpawner : MonoBehaviour {
     }
 
     public void StartSpawning() {
-        spawnedEnemies = new List<Enemy>();        
+        spawnedEnemies = new List<Enemy>();
         StartCoroutine(SpawnEnemies());
     }
 
@@ -49,15 +49,15 @@ public class EnemySpawner : MonoBehaviour {
         SceneFader.Instance.FadeToScene(0);
     }
 
-    bool leftSide = true;
+    //bool leftSide = true;
     void SpawnEnemy(Enemy e) {
-        Vector2 pos;
-        if(leftSide)
-            pos.x = -horizontalBound - 1;
-        else
-            pos.x = horizontalBound + 1;
-        pos.y = Random.Range(-verticalBound, verticalBound);
-        leftSide = !leftSide;
+        Vector2 pos = MyHelpers.GetCameraBorderRandomPosition(e.size);
+        //if(leftSide) 
+        //    pos.x = -horizontalBound - 1;
+        //else
+        //    pos.x = horizontalBound + 1;
+        //pos.y = Random.Range(-verticalBound, verticalBound);
+        //leftSide = !leftSide;
 
         var enemy = Instantiate(e, pos, Quaternion.identity);
         enemy.transform.SetParent(GameObject.FindGameObjectWithTag("EnemyDump").transform);

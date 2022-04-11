@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BackgroundScroll : MonoBehaviour {
@@ -18,13 +19,16 @@ public class BackgroundScroll : MonoBehaviour {
     public Planet[] planets;
 
     private int current;
+    private bool isRapidScrolling = false;
+    private List<Planet> spawnedPlanets = new List<Planet>();
 
     private void Start() {
         currentSR.sprite = sprites[Random.Range(0, sprites.Length)];
-        SpawnPlanet();
+
+        Invoke(nameof(SpawnPlanet), 5);
 
         if(canRandomSwitch)
-            InvokeRepeating(nameof(GetNextBackground), 0, 15);
+            Invoke(nameof(GetNextBackground), Random.Range(30f, 60f));
     }
 
     private void Update() {
@@ -41,14 +45,20 @@ public class BackgroundScroll : MonoBehaviour {
     }
 
     void MoveBackgroundWithGunner() {
+        if(isRapidScrolling)
+            return;
+
         float x = Input.GetAxis("Horizontal");
         float y = Input.GetAxis("Vertical");
         Vector2 offset = Time.deltaTime * moveSpeed * new Vector2(x + Time.deltaTime * moveSpeed, y);
-        currentSR.sharedMaterial.mainTextureOffset = 
+        currentSR.sharedMaterial.mainTextureOffset =
             Vector2.Lerp(currentSR.sharedMaterial.mainTextureOffset, currentSR.sharedMaterial.mainTextureOffset + offset, Time.deltaTime * moveSpeed);
     }
 
     void ScrollBackground() {
+        if(isRapidScrolling)
+            return;
+
         Vector2 offset = Time.deltaTime * moveSpeed * Vector3.left;
         currentSR.sharedMaterial.mainTextureOffset =
             Vector2.Lerp(currentSR.sharedMaterial.mainTextureOffset, currentSR.sharedMaterial.mainTextureOffset + offset, Time.deltaTime * moveSpeed);
@@ -67,6 +77,10 @@ public class BackgroundScroll : MonoBehaviour {
         nextSR.sprite = sprites[r];
 
         StartCoroutine(FadeSprites());
+        StartCoroutine(RapidScroll());
+
+        if(canRandomSwitch)
+            Invoke(nameof(GetNextBackground), Random.Range(30f, 60f));        
     }
 
     private void OnApplicationQuit() {
@@ -96,12 +110,78 @@ public class BackgroundScroll : MonoBehaviour {
     }
 
     void SpawnPlanet() {
-        Vector2 spawn = planetSpawn.position + (Vector3.up * Random.Range(-3f, 3f));
+        //weighted random num spawned
+        int num;
+        float r = (float) new System.Random().NextDouble();
+        if(r <= 0.6f)
+            num = 1;
+        else if(r > 0.6f && r < 0.9f)
+            num = 2;
+        else
+            num = 3;
 
-        var p = Instantiate(planets[Random.Range(0, planets.Length)], spawn, Quaternion.Euler(0, 0, Random.Range(0, 360)));
-        p.transform.localScale = Vector3.one * Random.Range(0.5f, 2f);
-        p.transform.SetParent(planetSpawn, true);
+        for(int i = 0; i < num; i++) {
+            Vector2 spawn = MyHelpers.GetCameraBorderRandomPosition(0);
 
-        Invoke(nameof(SpawnPlanet), Random.Range(30, 240));
+            var p = Instantiate(planets[Random.Range(0, planets.Length)], spawn, Quaternion.Euler(0, 0, Random.Range(0, 360)));
+            spawnedPlanets.Add(p);
+            p.transform.localScale = MyHelpers.RandomXYScale(0.5f, 2f);
+            p.transform.SetParent(planetSpawn);
+            StartCoroutine(InvokePlanetEnd(75, p));
+        }
+
+        Invoke(nameof(SpawnPlanet), Random.Range(30, 150));
+    }
+
+    IEnumerator InvokePlanetEnd(float time_, Planet p) {
+        yield return StartCoroutine(MyHelpers.WaitForTime(time_));
+        RemovePlanet(p);
+    }
+
+    void RemovePlanet(Planet p) {
+        if(!p)
+            return;
+
+        spawnedPlanets.Remove(p);
+        Destroy(p.gameObject);
+    }
+
+    IEnumerator RapidScroll() {
+        isRapidScrolling = true;
+
+        float t = 0;
+        float dt = Time.deltaTime * changeSpeed;
+        float startMoveSpeed = moveSpeed;
+        while(t < 1f) {
+            t += dt;
+            //speed up
+            if(t < 0.2f)
+                moveSpeed = Mathf.Lerp(moveSpeed, startMoveSpeed * 20f, Time.deltaTime);
+            //slow down
+            else if(t > 0.8f)
+                moveSpeed = Mathf.Lerp(moveSpeed, startMoveSpeed, Time.deltaTime / changeSpeed);
+
+            //move
+            Vector2 offset = Time.deltaTime * moveSpeed * Vector3.left;
+            currentSR.sharedMaterial.mainTextureOffset =
+                Vector2.Lerp(currentSR.sharedMaterial.mainTextureOffset, currentSR.sharedMaterial.mainTextureOffset + offset, Time.deltaTime * moveSpeed);
+
+            //move planets
+            foreach(var p in spawnedPlanets) {
+                p.SetDirection(Vector3.left);
+                p.moveSpeed = Mathf.Lerp(p.moveSpeed, p.moveSpeed * 3f, Time.deltaTime);
+            }
+
+            yield return null;
+        }
+        moveSpeed = startMoveSpeed;
+
+        for(int i = spawnedPlanets.Count - 1; i >= 0; i--) {
+            Destroy(spawnedPlanets[i].gameObject);
+        }
+        spawnedPlanets.Clear();
+        SpawnPlanet();
+
+        isRapidScrolling = false;
     }
 }

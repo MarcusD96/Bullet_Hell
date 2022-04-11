@@ -611,7 +611,7 @@ Camera:
   m_TargetDisplay: 0
   m_TargetEye: 0
   m_HDR: 1
-  m_AllowMSAA: 0
+  m_AllowMSAA: 1
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 0
@@ -1000,18 +1000,6 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2686659332645480579, guid: cd0772b57e47d6242997f90b647ec565, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.88
-      objectReference: {fileID: 0}
-    - target: {fileID: 2686659332645480579, guid: cd0772b57e47d6242997f90b647ec565, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.88
-      objectReference: {fileID: 0}
-    - target: {fileID: 2686659332645480579, guid: cd0772b57e47d6242997f90b647ec565, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2686659332645480579, guid: cd0772b57e47d6242997f90b647ec565, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -1049,6 +1037,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2686659332645480579, guid: cd0772b57e47d6242997f90b647ec565, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7361499453724711697, guid: cd0772b57e47d6242997f90b647ec565, type: 3}
+      propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1118,7 +1110,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gunner: {fileID: 0}
+  defaultGunner: {fileID: 0}
   choice: {fileID: 0}
+  defaultChoice: {fileID: 0}
   useController: 0
 --- !u!4 &536563535
 Transform:
@@ -1240,7 +1234,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OnPointerEnter: 1
+  OnSubmit: 1
   OnClick: 1
+  OnSelect: 1
   OnPointerExit: 0
 --- !u!1 &557781813
 GameObject:
@@ -1819,7 +1815,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OnPointerEnter: 1
+  OnSubmit: 1
   OnClick: 1
+  OnSelect: 1
   OnPointerExit: 0
 --- !u!1 &1120069231
 GameObject:
@@ -2841,7 +2839,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OnPointerEnter: 1
+  OnSubmit: 1
   OnClick: 1
+  OnSelect: 1
   OnPointerExit: 0
 --- !u!1 &1729033798
 GameObject:

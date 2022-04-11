@@ -19,6 +19,10 @@ public class Moon : MonoBehaviour {
     }
 
     private void Update() {
+        if(PauseMenu.Instance)
+            if(PauseMenu.Instance.isPaused)
+                return;
+
         transform.Rotate(Vector3.forward, rotateSpeed * Time.deltaTime);
     }
 

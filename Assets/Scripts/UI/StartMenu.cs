@@ -16,16 +16,20 @@ public class StartMenu : MonoBehaviour {
 
     public void StartGame() {
         SceneFader.Instance.FadeToScene(1);
+        AudioManager.Instance.PlaySound("Menu Click");
     }
 
     public void Settings() {
         print("make settings");
+        AudioManager.Instance.PlaySound("Menu Click");
     }
 
     public void Quit() {
 #if UNITY_EDITOR
+        AudioManager.Instance.PlaySound("Menu Click");
         UnityEditor.EditorApplication.isPlaying = false;
 #else
+        AudioManager.Instance.PlaySound("Menu Click");
         Application.Quit();
 #endif
     }

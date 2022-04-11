@@ -23,5 +23,4 @@ public class QuickShoot : PlayerShoot {
             yield return MyHelpers.WaitForTime(waitTime);
         }
     }
-
 }

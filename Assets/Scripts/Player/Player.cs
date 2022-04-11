@@ -16,10 +16,10 @@ public class Player : MonoBehaviour {
 
     [Header("Base Stats")]
     public int basePenetration;
-    public float baseHP, baseDamage, baseFireRate, baseProjectileSpeed, baseMoveSpeed;
+    public float baseHpRegen, baseHP, baseDamage, baseFireRate, baseProjectileSpeed, baseMoveSpeed;
 
     [Header("Current Stats")]
-    public float hpRegen;
+    public float currentHpRegen;
     public float currentHp, maxHP, damage, fireRate, projectileSpeed, moveSpeed;
 
     public float nextFire = 0;
@@ -55,7 +55,7 @@ public class Player : MonoBehaviour {
         if(currentHp == maxHP)
             return;
 
-        currentHp += hpRegen;
+        currentHp += currentHpRegen;
         if(currentHp > maxHP)
             currentHp = maxHP;
     }
@@ -115,12 +115,13 @@ public class Player : MonoBehaviour {
             currentHp = maxHP = Mathf.CeilToInt((1 + (stats.hpLevel * 0.4f)) * baseHP);
             hpText.text = currentHp.ToString();
         }
-        hpRegen = stats.hpRegenLevel * Time.deltaTime / 3;
+
         damage = Mathf.CeilToInt(baseDamage * stats.damageLevel) + baseDamage;
-        fireRate = (1 + (stats.fireRateLevel * 0.2f)) * baseFireRate;
         penetration = stats.penetrationLevel + basePenetration;
-        projectileSpeed = (1 + (stats.projectileSpeedLevel * 0.2f)) * baseProjectileSpeed;
-        moveSpeed = (1 + (stats.moveSpeedLevel * 0.2f)) * baseMoveSpeed;
+        currentHpRegen = baseHpRegen * Mathf.Pow(1.5f, stats.hpRegenLevel) * Time.deltaTime / 3;
+        fireRate = baseFireRate * Mathf.Pow(1.1f, stats.fireRateLevel);
+        projectileSpeed = baseProjectileSpeed * Mathf.Pow(1.1f, stats.projectileSpeedLevel);
+        moveSpeed = baseMoveSpeed * Mathf.Pow(1.1f, stats.moveSpeedLevel);
 
         if(!init)
             upgradeEffect.Play();

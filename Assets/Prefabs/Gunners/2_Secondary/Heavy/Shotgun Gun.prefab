@@ -289,12 +289,13 @@ MonoBehaviour:
   xp: 0
   penetration: 0
   basePenetration: 1
+  baseHpRegen: 4
   baseHP: 30
   baseDamage: 6
   baseFireRate: 0.35
   baseProjectileSpeed: 8
   baseMoveSpeed: 1
-  hpRegen: 0
+  currentHpRegen: 0
   currentHp: 0
   maxHP: 0
   damage: 0

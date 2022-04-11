@@ -10243,7 +10243,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OnPointerEnter: 1
+  OnSubmit: 1
   OnClick: 1
+  OnSelect: 1
   OnPointerExit: 0
 --- !u!1 &921016272
 GameObject:
@@ -10676,7 +10678,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gunner: {fileID: 0}
+  defaultGunner: {fileID: -4323205949926386926, guid: f49a60c8a9d37354a8eac0096e472214, type: 3}
   choice: {fileID: 0}
+  defaultChoice: {fileID: 4020317112555986593, guid: 986431bfd24d5594db7a7188cb606df1, type: 3}
   useController: 0
 --- !u!4 &948117601
 Transform:
@@ -11485,7 +11489,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OnPointerEnter: 1
+  OnSubmit: 1
   OnClick: 1
+  OnSelect: 1
   OnPointerExit: 0
 --- !u!1 &1024945881
 GameObject:
@@ -11624,7 +11630,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OnPointerEnter: 1
+  OnSubmit: 1
   OnClick: 1
+  OnSelect: 1
   OnPointerExit: 0
 --- !u!1 &1039985225
 GameObject:
@@ -12153,7 +12161,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OnPointerEnter: 1
+  OnSubmit: 1
   OnClick: 1
+  OnSelect: 1
   OnPointerExit: 0
 --- !u!1 &1113086890
 GameObject:
@@ -12604,7 +12614,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OnPointerEnter: 1
+  OnSubmit: 1
   OnClick: 1
+  OnSelect: 1
   OnPointerExit: 0
 --- !u!1 &1164240001
 GameObject:
@@ -25749,7 +25761,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OnPointerEnter: 1
+  OnSubmit: 1
   OnClick: 1
+  OnSelect: 1
   OnPointerExit: 0
 --- !u!1 &2141767962
 GameObject:

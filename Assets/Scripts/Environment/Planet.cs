@@ -10,21 +10,28 @@ public class Planet : MonoBehaviour {
     private Moon[] moonPrefabs;
 
     private int maxNumMoons = 5;
+    private Vector3 direction;
 
     private void Start() {
         if(Random.Range(0, 2) < 1)
             rotateSpeed = -rotateSpeed;
+
+        direction = (Vector3.zero - transform.position).normalized;
+        transform.position -= direction * 10f;
+
+        moveSpeed += Random.Range(-0.025f, 0.025f);
 
         InitializeMoons();
     }
 
     // Update is called once per frame
     void Update() {
-        transform.position += moveSpeed * Time.deltaTime * Vector3.left;
-        transform.Rotate(Vector3.forward * rotateSpeed);
+        if(PauseMenu.Instance)
+            if(PauseMenu.Instance.isPaused)
+                return;
 
-        if(transform.position.x <= -15)
-            Destroy(gameObject);
+        transform.position += moveSpeed * Time.deltaTime * direction;
+        transform.Rotate(Vector3.forward * rotateSpeed);
     }
 
     void InitializeMoons() {
@@ -37,4 +44,6 @@ public class Planet : MonoBehaviour {
             rot += rot;
         }
     }
+
+    public void SetDirection(Vector3 newDirection_) => direction = newDirection_;
 }

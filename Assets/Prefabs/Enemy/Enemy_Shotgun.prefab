@@ -622,6 +622,8 @@ MonoBehaviour:
   explosionPrefab: {fileID: 7496335483395040508, guid: d952ceb00db84d34ebacd7decdbc1424, type: 3}
   explosionScale: 1
   deathSound: Boom
+  size: 1
+  spriteRenderer: {fileID: 8190963758071747662}
 --- !u!114 &-1036931103746806657
 MonoBehaviour:
   m_ObjectHideFlags: 0

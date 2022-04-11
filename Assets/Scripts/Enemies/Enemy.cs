@@ -11,15 +11,12 @@ public class Enemy : MonoBehaviour {
     public GameObject explosionPrefab;
     public float explosionScale = 1;
     public string deathSound;
+    public float size;
 
-    private float currentHp;
-    private SpriteRenderer spriteRenderer;
+    [SerializeField] SpriteRenderer spriteRenderer;
 
+    protected float currentHp;
     protected bool isDead = false, isBurning = false;
-
-    private void Awake() {
-        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-    }
 
     private void Start() {
         currentHp = baseHp * LevelStats.Level;
@@ -28,7 +25,7 @@ public class Enemy : MonoBehaviour {
         name = "Enemy_" + Random.Range(0, 10000);
     }
 
-    public void GetDamaged(float damage_) {
+    public virtual void GetDamaged(float damage_) {
         currentHp -= damage_;
         hpText.text = Mathf.Ceil(currentHp).ToString();
 
@@ -84,5 +81,10 @@ public class Enemy : MonoBehaviour {
     protected void SpawnXP() {
         var p = Instantiate(xpPickUp, transform.position, Quaternion.Euler(0, 0, Random.Range(0, 360)));
         p.InitializePickUp(xpWorth);
+    }
+
+    private void OnDrawGizmosSelected() {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, size);
     }
 }

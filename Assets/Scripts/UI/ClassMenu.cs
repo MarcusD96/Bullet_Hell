@@ -15,5 +15,6 @@ public class ClassMenu : MonoBehaviour {
         GameManager.Instance.gunner = gunners[choice_];
         GameManager.Instance.choice = primaryUpgrades[choice_];
         SceneFader.Instance.FadeToScene(2);
+        AudioManager.Instance.PlaySound("Menu Click");
     }
 }

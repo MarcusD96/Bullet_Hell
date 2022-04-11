@@ -141,6 +141,7 @@ MonoBehaviour:
   rotateSpeed: 2
   projectilePrefab: {fileID: 4327796646759930723, guid: eddbc2c8423c8504f97179f5e09eb93b, type: 3}
   fireSpawns:
+  - {fileID: 7828576613022704140}
   - {fileID: 3123308738823877876}
   - {fileID: 4918138380545631650}
   - {fileID: 8942413675481008255}

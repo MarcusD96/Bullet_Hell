@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class KamikazeEnemy : Enemy {
 
-    public int damage;
+    [SerializeField] int damage;
+    [SerializeField] float rotateSpeed;
 
     Player p;
 
@@ -13,5 +14,9 @@ public class KamikazeEnemy : Enemy {
             p.TakeDamage(damage);
             Die();
         }
+    }
+
+    private void Update() {
+        transform.Rotate(rotateSpeed * Time.deltaTime * Vector3.forward);
     }
 }

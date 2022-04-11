@@ -13,6 +13,10 @@ public class ProjectileAttack : MonoBehaviour {
     private float nextFire = 0;
     protected Coroutine burst;
 
+    private void Start() {
+        nextFire = 1 / fireRate;
+    }
+
     public void Shoot(Transform[] fireSpawns_) {
         if(PauseMenu.Instance.isPaused)
             return;
@@ -36,5 +40,13 @@ public class ProjectileAttack : MonoBehaviour {
             yield return StartCoroutine(MyHelpers.WaitForTime(shotTime));
         }
         burst = null;
+    }
+
+    public void ResetFire(float seconds) {
+        nextFire = seconds;
+    }
+
+    public void SkipFire() {
+        nextFire = 0;
     }
 }

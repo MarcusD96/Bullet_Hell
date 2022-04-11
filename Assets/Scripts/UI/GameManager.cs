@@ -16,8 +16,8 @@ public class GameManager : MonoBehaviour {
     }
     #endregion
 
-    public Player gunner;
-    public Upgrade choice;
+    public Player gunner, defaultGunner;
+    public Upgrade choice, defaultChoice;
     public bool useController = false;
 
     private void Start() {
@@ -30,8 +30,10 @@ public class GameManager : MonoBehaviour {
     }
 
     public void SpawnGunner() {
-        if(!gunner)
-            SceneFader.Instance.FadeToScene(1);
+        if(!gunner) {
+            choice = defaultChoice;
+            gunner = defaultGunner;
+        }
 
         var p = Instantiate(gunner, Vector2.zero, Quaternion.identity);
         UpgradeManager.Instance.CurrentGunner = p;

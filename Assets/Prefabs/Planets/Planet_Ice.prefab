@@ -95,8 +95,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ec1019588c39e247b2fa0c5d90e0315, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0.1
-  rotateSpeed: 0.01
+  moveSpeed: 0.5
+  rotateSpeed: 0.02
   moonPrefabs:
   - {fileID: 1784211211116092260, guid: 740132934be3e0d4da2c75b099063f1c, type: 3}
   - {fileID: 1784211211116092260, guid: 28c6384bea4bd7f46af0f2654bf4bc40, type: 3}
