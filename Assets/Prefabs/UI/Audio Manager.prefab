@@ -43,95 +43,138 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3281227855692914f8f79a1d4eee921c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sounds:
+  SFX:
   - name: Boom
     clip: {fileID: 8300000, guid: effa7b9bd2b1a7047a1c25eeb977c0f3, type: 3}
-    volume: 0.5
+    volume: 0.03
+    pitch: 1
+    randomVolume: 0
+    randomPitch: 0.25
+    loop: 0
+  - name: Collect
+    clip: {fileID: 8300000, guid: e552f7d7ce6bbaa4f89ec4a7299427a5, type: 3}
+    volume: 0.03
     pitch: 1
     randomVolume: 0
     randomPitch: 0.1
     loop: 0
-  - name: Quick Shot
-    clip: {fileID: 8300000, guid: d7869b7aa863e60438df3d1b9ec5184a, type: 3}
-    volume: 0.025
-    pitch: 1
-    randomVolume: 0
-    randomPitch: 0
-    loop: 0
   - name: Heavy Shot
     clip: {fileID: 8300000, guid: 0ca93e4182efc1540ad2ccf06b41cca2, type: 3}
-    volume: 0.1
-    pitch: 1
-    randomVolume: 0
-    randomPitch: 0
-    loop: 0
-  - name: Laser Shot
-    clip: {fileID: 8300000, guid: bd8774688c1bbf946877dd194bd7baee, type: 3}
-    volume: 0.1
-    pitch: 1
-    randomVolume: 0
-    randomPitch: 0
-    loop: 0
-  - name: Shot
-    clip: {fileID: 8300000, guid: b1aab295c281e1545b0fb2b986cb7ca5, type: 3}
-    volume: 0.1
-    pitch: 1
-    randomVolume: 0
-    randomPitch: 0
-    loop: 0
-  - name: Power Up
-    clip: {fileID: 8300000, guid: 951684bd83bdad24a8352afe0fe55801, type: 3}
-    volume: 0.1
-    pitch: 1
-    randomVolume: 0
-    randomPitch: 0
-    loop: 0
-  - name: Laser Start
-    clip: {fileID: 8300000, guid: 64936a85a466e2542b0028e87a103400, type: 3}
-    volume: 0.25
-    pitch: 1
-    randomVolume: 0
-    randomPitch: 0
-    loop: 0
-  - name: Laser Looped
-    clip: {fileID: 8300000, guid: faec2033084453e46ba4849af1a8b8c2, type: 3}
-    volume: 0.1
-    pitch: 1
-    randomVolume: 0
-    randomPitch: 0
-    loop: 1
-  - name: Laser End
-    clip: {fileID: 8300000, guid: fdc6f7324f3e6e24c90e109e1199bed9, type: 3}
-    volume: 0.1
+    volume: 0.03
     pitch: 1
     randomVolume: 0
     randomPitch: 0
     loop: 0
   - name: Player Hit
     clip: {fileID: 8300000, guid: b1aab295c281e1545b0fb2b986cb7ca5, type: 3}
-    volume: 0.1
+    volume: 0.03
     pitch: 1
     randomVolume: 0
     randomPitch: 0
     loop: 0
-  - name: Menu Enter
-    clip: {fileID: 8300000, guid: 58fea69051587c443853cf9b4f8a4e4e, type: 3}
-    volume: 0.1
+  - name: Laser End
+    clip: {fileID: 8300000, guid: fdc6f7324f3e6e24c90e109e1199bed9, type: 3}
+    volume: 0.03
+    pitch: 1
+    randomVolume: 0
+    randomPitch: 0
+    loop: 0
+  - name: Laser Looped
+    clip: {fileID: 8300000, guid: faec2033084453e46ba4849af1a8b8c2, type: 3}
+    volume: 0.03
+    pitch: 1
+    randomVolume: 0
+    randomPitch: 0
+    loop: 1
+  - name: Laser Start
+    clip: {fileID: 8300000, guid: 64936a85a466e2542b0028e87a103400, type: 3}
+    volume: 0.03
+    pitch: 1
+    randomVolume: 0
+    randomPitch: 0
+    loop: 0
+  - name: Laser Shot
+    clip: {fileID: 8300000, guid: bd8774688c1bbf946877dd194bd7baee, type: 3}
+    volume: 0.03
     pitch: 1
     randomVolume: 0
     randomPitch: 0
     loop: 0
   - name: Menu Click
     clip: {fileID: 8300000, guid: 39b4a767704397744a9b7ac5aa55c79f, type: 3}
-    volume: 0.1
+    volume: 0.03
     pitch: 1
     randomVolume: 0
     randomPitch: 0
     loop: 0
-  - name: Collect
-    clip: {fileID: 8300000, guid: e552f7d7ce6bbaa4f89ec4a7299427a5, type: 3}
-    volume: 0.2
+  - name: Menu Enter
+    clip: {fileID: 8300000, guid: 58fea69051587c443853cf9b4f8a4e4e, type: 3}
+    volume: 0.03
+    pitch: 1
+    randomVolume: 0
+    randomPitch: 0
+    loop: 0
+  - name: Power Up
+    clip: {fileID: 8300000, guid: 951684bd83bdad24a8352afe0fe55801, type: 3}
+    volume: 0.03
+    pitch: 1
+    randomVolume: 0
+    randomPitch: 0
+    loop: 0
+  - name: Quick Shot
+    clip: {fileID: 8300000, guid: d7869b7aa863e60438df3d1b9ec5184a, type: 3}
+    volume: 0.03
+    pitch: 1
+    randomVolume: 0
+    randomPitch: 0
+    loop: 0
+  Music:
+  - name: 
+    clip: {fileID: 8300000, guid: cb8b5b1b9a3ede348a471f2bf69e49a9, type: 3}
+    volume: 0.05
+    pitch: 1
+    randomVolume: 0
+    randomPitch: 0
+    loop: 0
+  - name: 
+    clip: {fileID: 8300000, guid: d6fbb87df12a83a4d89a23cf459baf30, type: 3}
+    volume: 0.05
+    pitch: 1
+    randomVolume: 0
+    randomPitch: 0
+    loop: 0
+  - name: 
+    clip: {fileID: 8300000, guid: 84f096c59624c2f4892cc7636ef8f8f5, type: 3}
+    volume: 0.05
+    pitch: 1
+    randomVolume: 0
+    randomPitch: 0
+    loop: 0
+  - name: 
+    clip: {fileID: 8300000, guid: d6f81ae883d4aa04b83fd07a72ed8f78, type: 3}
+    volume: 0.05
     pitch: 0.5
+    randomVolume: 0
+    randomPitch: 0
+    loop: 0
+  - name: 
+    clip: {fileID: 8300000, guid: 3d26ce002c3f55640bba01522ae9ba5b, type: 3}
+    volume: 0.05
+    pitch: 1
+    randomVolume: 0
+    randomPitch: 0
+    loop: 0
+  - name: 
+    clip: {fileID: 8300000, guid: 0c32aa735aab87e48848f92e1fd090b0, type: 3}
+    volume: 0.05
+    pitch: 1
+    randomVolume: 0
+    randomPitch: 0
+    loop: 0
+  - name: 
+    clip: {fileID: 8300000, guid: 0b94d0dd20d655942a60f500f609eb27, type: 3}
+    volume: 0.05
+    pitch: 1
     randomVolume: 0
     randomPitch: 0
     loop: 0

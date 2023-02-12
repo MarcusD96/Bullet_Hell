@@ -9,7 +9,7 @@ public class Planet : MonoBehaviour {
     [SerializeField]
     private Moon[] moonPrefabs;
 
-    private int maxNumMoons = 5;
+    private int maxNumMoons = 3;
     private Vector3 direction;
 
     private void Start() {
@@ -21,7 +21,7 @@ public class Planet : MonoBehaviour {
 
         moveSpeed += Random.Range(-0.025f, 0.025f);
 
-        InitializeMoons();
+        //InitializeMoons();
     }
 
     // Update is called once per frame

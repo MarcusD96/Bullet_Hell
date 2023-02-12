@@ -110,6 +110,11 @@ public class BackgroundScroll : MonoBehaviour {
     }
 
     void SpawnPlanet() {
+        if(spawnedPlanets.Count >= 3) {
+            Invoke(nameof(SpawnPlanet), Random.Range(30, 30));
+            return;
+        }
+
         //weighted random num spawned
         int num;
         float r = (float) new System.Random().NextDouble();

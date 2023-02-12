@@ -102,6 +102,10 @@ public class GuidedBolt : Weapon {
                 continue;
             if(hitEnemies.Contains(h))
                 continue;
+            if(h.TryGetComponent(out BossEnemy e))
+                if(e.IsInvincible())
+                    continue;
+                
 
             var d = Vector2.Distance(h.transform.position, transform.position);
             if(d < closestDistance) {

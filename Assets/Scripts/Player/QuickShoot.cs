@@ -17,7 +17,7 @@ public class QuickShoot : PlayerShoot {
                 Weapon b = Instantiate(weapon, f.position, Quaternion.identity);
                 b.transform.SetParent(GameObject.FindGameObjectWithTag("ProjectileDump").transform);
                 Vector2 dir = (f.position - transform.position).normalized;
-                b.InitializeWithPenetrate(player.damage, player.projectileSpeed, player.penetration, dir);
+                b.InitializeWithPenetrate(player.damage, player.projectileSpeed, player.penetration, dir, player);
             }
             float waitTime = (1 / (player.fireRate * 2f)) / burstNum;
             yield return MyHelpers.WaitForTime(waitTime);

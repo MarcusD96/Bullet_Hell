@@ -15,4 +15,8 @@ public class TPShadowClone : MonoBehaviour {
             Destroy(gameObject);
     }
 
+    public void Destroy() { 
+        Destroy(gameObject);
+    }
+
 }

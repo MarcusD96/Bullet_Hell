@@ -31,7 +31,7 @@ public class ButtonSound : MonoBehaviour {
         EventTrigger.Entry entry = new EventTrigger.Entry {
             eventID = EventTriggerType.PointerEnter
         };
-        entry.callback.AddListener((eventData) => { AudioManager.Instance.PlaySound("Menu Enter"); });
+        entry.callback.AddListener((eventData) => { PlaySound("Menu Enter"); });
         et.triggers.Add(entry);
     }
 
@@ -42,7 +42,7 @@ public class ButtonSound : MonoBehaviour {
         EventTrigger.Entry entry = new EventTrigger.Entry {
             eventID = EventTriggerType.PointerClick
         };
-        entry.callback.AddListener((eventData) => { AudioManager.Instance.PlaySound("Menu Click"); });
+        entry.callback.AddListener((eventData) => { PlaySound("Menu Click"); });
         et.triggers.Add(entry);
     }
 
@@ -53,7 +53,7 @@ public class ButtonSound : MonoBehaviour {
         EventTrigger.Entry entry = new EventTrigger.Entry {
             eventID = EventTriggerType.PointerExit
         };
-        entry.callback.AddListener((eventData) => { AudioManager.Instance.PlaySound("Menu Exit"); });
+        entry.callback.AddListener((eventData) => { PlaySound("Menu Exit"); });
         et.triggers.Add(entry);
     }
 
@@ -64,7 +64,7 @@ public class ButtonSound : MonoBehaviour {
         EventTrigger.Entry entry = new EventTrigger.Entry {
             eventID = EventTriggerType.Select
         };
-        entry.callback.AddListener((eventData) => { AudioManager.Instance.PlaySound("Menu Enter"); });
+        entry.callback.AddListener((eventData) => { PlaySound("Menu Enter"); });
         et.triggers.Add(entry);
     }
 
@@ -75,6 +75,13 @@ public class ButtonSound : MonoBehaviour {
         EventTrigger.Entry entry = new EventTrigger.Entry {
             eventID = EventTriggerType.Submit
         };
-        entry.callback.AddListener((eventData) => { AudioManager.Instance.PlaySound("Menu Click"); });
+        entry.callback.AddListener((eventData) => { PlaySound("Menu Click"); });
+    }
+
+    void PlaySound(string soundName_) {
+        if(SceneFader.Instance.isTransitioning)
+            return;
+
+        AudioManager.Instance.PlaySound(soundName_);
     }
 }

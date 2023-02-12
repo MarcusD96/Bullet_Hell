@@ -54,7 +54,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   explosionEffect: {fileID: 4898266180444275127, guid: 3e91a7a8b8dcccb449343d6fccaff2de, type: 3}
-  explosionRadius: 3
 --- !u!58 &664055559129640166
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -142,7 +141,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3f9e1b4657a7f0346a8c80c509f4688b, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -163,7 +162,7 @@ SpriteRenderer:
   m_SortingLayerID: 1601241129
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 52a7ae1bb44c4eb41af95dae0d74122a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7fc508a95b0805e49a9ff08a1812041d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

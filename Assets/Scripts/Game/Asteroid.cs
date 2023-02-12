@@ -9,6 +9,7 @@ public class Asteroid : MonoBehaviour {
 
     public Asteroid childPrefab;
     public SpriteRenderer spriteRenderer;
+    public bool isDead;
 
     [SerializeField] GameObject explosionPrefab;
     [SerializeField] XPStar XPStar;
@@ -18,9 +19,9 @@ public class Asteroid : MonoBehaviour {
     float radius;
     Vector3 direction;
     Asteroid[] childrenAstroids;
-    bool isDead = false;
 
     private void Start() {
+        isDead = false;
         direction = transform.right.normalized;
         camExtents = Camera.main.ViewportToWorldPoint(new Vector2(1, 1));
         radius = GetComponent<CircleCollider2D>().radius * transform.localScale.x;
@@ -29,8 +30,9 @@ public class Asteroid : MonoBehaviour {
             return;
 
         currentHP = startHP;
-        transform.localScale *= Random.Range(0.5f, 1.5f);
-        moveSpeed = Random.Range(0.5f, 1.25f);
+        transform.localScale *= Random.Range(1.0f, 2.0f);
+        radius = GetComponent<CircleCollider2D>().radius * transform.localScale.x;
+        moveSpeed = Random.Range(0.2f, 0.5f);
         rotateSpeed = Random.Range(2f, 15f);
     }
 
@@ -51,7 +53,7 @@ public class Asteroid : MonoBehaviour {
                     return;
             }
             //all children killed, award xp, destroy parent
-            Instantiate(XPStar, transform.position, MyHelpers.RandomZRotation).InitializePickUp(childrenAstroids.Length);
+            Instantiate(XPStar, transform.position, MyHelpers.RandomZRotation).InitializePickUp((EnemySpawner.Instance.waveNumber + 1) * 7);
             Destroy(gameObject);
         }
     }
@@ -102,16 +104,17 @@ public class Asteroid : MonoBehaviour {
         childrenAstroids = new Asteroid[Random.Range(2, 5)];
         for(int i = 0; i < childrenAstroids.Length; i++) {
             childrenAstroids[i] = Instantiate(childPrefab, transform.position, MyHelpers.RandomZRotation);
-            childrenAstroids[i].InitializeChild(this);
+            childrenAstroids[i].InitializeChild(this, childrenAstroids.Length);
             childrenAstroids[i].transform.SetParent(transform);
             AsteroidSpawner.Instance.GetAsteroids().Add(childrenAstroids[i]);
         }
     }
 
-    public void InitializeChild(Asteroid parent_) {
+    public void InitializeChild(Asteroid parent_, float numChild) {
         isChild = true;
         startHP = currentHP = Mathf.Ceil(parent_.startHP / 5f);
-        transform.localScale = Vector3.one * Random.Range(0.35f, 0.55f);
+        transform.localScale = Vector3.one * (parent_.radius / numChild);
+        radius = GetComponent<CircleCollider2D>().radius * transform.localScale.x;
         transform.position += (Vector3) Random.insideUnitCircle * Random.Range(1f, 1.5f);
         moveSpeed = Random.Range(0.45f, 0.75f);
         rotateSpeed = Random.Range(3f, 8f);
@@ -140,10 +143,22 @@ public class Asteroid : MonoBehaviour {
             return;
 
         if(collision.TryGetComponent(out Player p)) {
+            if(p.GetInvulnerable() == true)
+                return;
+
             p.TakeDamage(LevelStats.Level);
 
             Vector3 dir = (p.transform.position - transform.position).normalized;
             p.GetComponent<Movement>().Knockback(dir, 20, 0.05f);
         }
+    }
+
+    public float GetRadius() {
+        return radius;
+    }
+
+    private void OnDrawGizmosSelected() {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, radius);
     }
 }

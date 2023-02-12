@@ -26,6 +26,9 @@ public class TeleportEnemyMovement : EnemyMovement {
         if(PauseMenu.Instance.isPaused)
             return;
 
+        if(isFrozen == true)
+            return;
+
         transform.position = originPosition + Random.insideUnitCircle * vibrateAmount;
         pivot.rotation = MyHelpers.RandomZRotation;
     }
@@ -33,6 +36,11 @@ public class TeleportEnemyMovement : EnemyMovement {
     IEnumerator TeleportToLocation() {
         //delay for shoot
         yield return MyHelpers.WaitForTime(detectionRate + Random.Range(-detectionVariation, detectionVariation));
+
+        if(isFrozen ==  true) {
+            StartCoroutine(TeleportToLocation());
+            yield break;
+        }
 
         //find tpPos
         Vector3 teleportLocation = player.transform.position + (Vector3) (Random.insideUnitCircle * warpDistance);
@@ -61,6 +69,8 @@ public class TeleportEnemyMovement : EnemyMovement {
         //set pos to tpPos
         originPosition = transform.position = teleportLocation;
         pivot.rotation = MyHelpers.RandomZRotation;
+
+        s.Destroy();
 
         //start next tp
         StartCoroutine(TeleportToLocation());

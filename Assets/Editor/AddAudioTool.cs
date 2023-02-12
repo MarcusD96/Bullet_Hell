@@ -8,6 +8,7 @@ public class AddAudioTool : EditorWindow {
     AudioClip clipToUse;
     float volume, pitch, randVolume, randPitch;
     bool loop;
+    AudioType audioType;
 
     [MenuItem("Tools/Add Audio")]
     public static void ShowWindow() {
@@ -19,6 +20,7 @@ public class AddAudioTool : EditorWindow {
         GUILayout.Label("Add new sound to Soud Manager", EditorStyles.boldLabel);
         GUILayout.Space(10);
 
+        audioType = (AudioType) EditorGUILayout.EnumPopup("Audio Array", audioType);
         soundName = EditorGUILayout.TextField("Name", soundName);
         clipToUse = (AudioClip) EditorGUILayout.ObjectField("Audio Clip", clipToUse, typeof(AudioClip), true);
         volume = EditorGUILayout.Slider("Volume", volume, 0f, 1f);
@@ -42,9 +44,22 @@ public class AddAudioTool : EditorWindow {
 
 
         //make a new array with an additional spot for thew new sound and copy the old array into the new one
-        Sound[] newSounds = new Sound[manager.sounds.Length + 1];
-        for(int i = 0; i < newSounds.Length - 1; i++) {
-            newSounds[i] = manager.sounds[i];
+        Sound[] newSounds, oldSounds;
+        switch(audioType) {
+            case AudioType.SFX:
+                newSounds = new Sound[manager.SFX.Length + 1];
+                oldSounds = manager.SFX;
+                break;
+            case AudioType.MUSIC:
+                newSounds = new Sound[manager.Music.Length + 1];
+                oldSounds = manager.Music;
+                break;
+            default:
+                Debug.LogError("Invalid AudioType");
+                return;
+        }
+        for(int i = 0; i < oldSounds.Length - 1; i++) {
+            newSounds[i] = oldSounds[i];
         }
 
         var n = newSounds[newSounds.Length - 1] = new Sound();
@@ -58,7 +73,20 @@ public class AddAudioTool : EditorWindow {
         n.loop = loop;
 
         //replace the old sounds array with the new one
-        manager.sounds = newSounds;
+        switch(audioType) {
+            case AudioType.SFX:
+                manager.SFX = newSounds;
+                break;
+            case AudioType.MUSIC:
+                manager.Music = newSounds;
+                break;
+            default:
+                break;
+        }
     }
+}
 
+public enum AudioType {
+    SFX,
+    MUSIC
 }

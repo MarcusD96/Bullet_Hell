@@ -15,31 +15,34 @@ public class Weapon : MonoBehaviour {
     protected int penetration;
     protected float speed;
     protected Vector3 direction;
+    protected Player owner;
 
     private Vector3 originPosition;
 
-    public void InitializeWithPenetrate(float damage_, float speed_, int penetration_, Vector2 direction_) {
+    public virtual void InitializeWithPenetrate(float damage_, float speed_, int penetration_, Vector2 direction_, Player owner_) {
         damage = damage_;
         speed = speed_;
         penetration = penetration_;
         if(spreadVariation) {
-            direction = VaryDirection(direction_, 0.2f);
+            direction = MyHelpers.VaryDirection(direction_, variation);
         }
         else
             direction = direction_;
+        owner = owner_;
 
         UpdateRotation();
         originPosition = transform.position;
     }
 
-    public void Initialize(int damage_, float speed_, Vector2 direction_) {
+    public virtual void Initialize(int damage_, float speed_, Vector2 direction_, Player owner_) {
         damage = damage_;
         if(spreadVariation) {
-            direction = VaryDirection(direction_, variation);
+            direction = MyHelpers.VaryDirection(direction_, variation);
         }
         else
             direction = direction_;
         speed = speed_;
+        owner = owner_;
 
         UpdateRotation();
         originPosition = transform.position;
@@ -48,10 +51,15 @@ public class Weapon : MonoBehaviour {
     protected void Start() {
         if(projectileMaxLifetime <= 0)
             projectileMaxLifetime = 1;
+
         Destroy(gameObject, projectileMaxLifetime);
     }
 
     protected virtual void Update() {
+        UpdatePathing();
+    }
+
+    protected virtual void UpdatePathing() {
         if(PauseMenu.Instance.isPaused)
             return;
 
@@ -84,13 +92,5 @@ public class Weapon : MonoBehaviour {
     protected void UpdateRotation() {
         Vector3 rotAngle = new Vector3(0, 0, -Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg);
         transform.eulerAngles = rotAngle;
-    }
-
-    Vector2 VaryDirection(Vector2 direction_, float variation) {
-        float rX = Random.Range(-variation, variation);
-        float rY = Random.Range(-variation, variation);
-        Vector2 dir = new Vector2(direction_.x + rX, direction_.y + rY);
-        dir.Normalize();
-        return dir;
     }
 }

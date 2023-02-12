@@ -21,6 +21,8 @@ public class SceneFader : MonoBehaviour {
     public float fadeSpeed;
     public AnimationCurve fadeCurve;
 
+    public bool isTransitioning = false;
+
     private void Start() {
         DontDestroyOnLoad(this);
         StartCoroutine(FadeIn());
@@ -42,6 +44,8 @@ public class SceneFader : MonoBehaviour {
     }
 
     IEnumerator FadeOut(int scene) {
+        isTransitioning = true;
+
         float t = 0.0f;
 
         while(t < 1.0f) {
@@ -53,5 +57,6 @@ public class SceneFader : MonoBehaviour {
 
         SceneManager.LoadScene(scene);
         StartCoroutine(FadeIn());
+        isTransitioning = false;
     }
 }

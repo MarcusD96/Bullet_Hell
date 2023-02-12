@@ -25,12 +25,11 @@ public class AsteroidSpawner : MonoBehaviour {
         var a = Instantiate(asteroidPrefab, s.position, s.rotation);
         spawnedAsteroids.Add(a);
         a.transform.SetParent(transform);
-        a.startHP = LevelStats.Level * 10;
+        a.startHP = (EnemySpawner.Instance.waveNumber + 1) * 25;
         return a;
     }
 
     public List<Asteroid> GetAsteroids() {
         return spawnedAsteroids;
     }
-
 }

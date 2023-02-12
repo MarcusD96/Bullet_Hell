@@ -45,7 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upgradePrefab: {fileID: 386031364187567956, guid: cb094dcc0925ac84d84ef85e2bf9b189, type: 3}
   title: Shotgun
-  cost: 10
   sprite: {fileID: 21300000, guid: 8be37b86e0bb4ea4883169e1400f9de4, type: 3}
-  description: Double-Aught Buck Baby
-  childUpgrades: []
+  description: Shoot small projectiles spread forwards
+  childUpgrades:
+  - {fileID: 4020317112555986593, guid: ed3a97ccd3581f844800dddd661ffe54, type: 3}

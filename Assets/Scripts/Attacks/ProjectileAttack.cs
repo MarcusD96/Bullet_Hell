@@ -9,9 +9,9 @@ public class ProjectileAttack : MonoBehaviour {
     public float projSpeed;
     public int damage;
     public EnemyProjectile projectilePrefab;
+    public float shotVariation;
 
     private float nextFire = 0;
-    protected Coroutine burst;
 
     private void Start() {
         nextFire = 1 / fireRate;
@@ -39,7 +39,6 @@ public class ProjectileAttack : MonoBehaviour {
             FireProjectiles(fireSpawns_);
             yield return StartCoroutine(MyHelpers.WaitForTime(shotTime));
         }
-        burst = null;
     }
 
     public void ResetFire(float seconds) {

@@ -23,7 +23,11 @@ public class PickUpStar : MonoBehaviour {
 
     protected Player player;
 
-    public virtual void InitializePickUp(int points_) {
+    private void Awake() {
+        player = FindObjectOfType<Player>();        
+    }
+
+    public void InitializePickUp(int points_) {
         if(points <= 0) {
             points = 1;
             print("less than 0 points");
@@ -34,7 +38,7 @@ public class PickUpStar : MonoBehaviour {
 
     private void Start() {
         rotateSpeed = Random.Range(7f, 10f);
-        direction = ((Random.insideUnitSphere * 3) - transform.position).normalized;
+        direction = (player.transform.position - transform.position).normalized;
         baseMoveSpeed = moveSpeed;
         camExtents = GetCameraExtents();
     }

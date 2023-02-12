@@ -16,6 +16,7 @@ public class StartGame : MonoBehaviour {
     public void StartGame_() {
         GameManager.Instance.SpawnGunner();
         Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Confined;
         AudioManager.Instance.PlaySound("Menu Click");
         Destroy(gameObject);
     }

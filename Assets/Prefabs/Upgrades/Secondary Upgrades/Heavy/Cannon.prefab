@@ -45,7 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upgradePrefab: {fileID: 386031364187567956, guid: be346338c0e5f0b4aac3d982ef381e8f, type: 3}
   title: Cannon
-  cost: 10
   sprite: {fileID: 21300000, guid: 908335da657b9004c8da56fffafb8a6e, type: 3}
-  description: All Power. All Pain.
-  childUpgrades: []
+  description: Slow firing, bomb shooting, pain machine
+  childUpgrades:
+  - {fileID: 4020317112555986593, guid: 4c180e17f2c02874a98ec66e72de324e, type: 3}

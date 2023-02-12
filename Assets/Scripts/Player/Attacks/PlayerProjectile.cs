@@ -10,6 +10,8 @@ public class PlayerProjectile : Weapon {
         base.OnTriggerEnter2D(collision);
 
         if(collision.TryGetComponent(out e)) {
+            if(e.isDead)
+                goto EndEnemy;
             if(!hit) {
                 if(penetration < 2) {
                     hit = true;
@@ -22,8 +24,10 @@ public class PlayerProjectile : Weapon {
                 }
             }
         }
-
+        EndEnemy:
         if(collision.TryGetComponent(out Asteroid a)) {
+            if(a.isDead)
+                return;
             if(!hit) {
                 if(penetration < 2) {
                     hit = true;

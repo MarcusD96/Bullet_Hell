@@ -10,8 +10,9 @@ public class EnemySpawner : MonoBehaviour {
     public float verticalBound;
     public float horizontalBound;
 
-    [SerializeField]
     public List<Wave> waves;
+    public bool debugWave = false;
+    [Range(0, 15)] public int waveNumber;
 
     private List<Enemy> spawnedEnemies;
 
@@ -32,7 +33,14 @@ public class EnemySpawner : MonoBehaviour {
     IEnumerator SpawnEnemies() {
         yield return StartCoroutine(MyHelpers.WaitForTime(2f));
 
-        for(int i = 0; i < waves.Count; i++) {
+        if(debugWave) {
+            foreach(var c in waves[waveNumber].chunks) {
+                StartCoroutine(SpawnWaveChunk(c));
+            }
+            yield break;
+        }
+
+        for(int i = waveNumber; i < waves.Count; i++) {
             foreach(var c in waves[i].chunks) {
                 StartCoroutine(SpawnWaveChunk(c));
             }
@@ -79,7 +87,7 @@ public class EnemySpawner : MonoBehaviour {
                 SpawnEnemy(c.enemy);
 
             //check for game pause
-            yield return StartCoroutine(MyHelpers.WaitForTime(1f / c.spawnRate));
+            yield return StartCoroutine(WaitForTime_Interuptable(1f / c.spawnRate));
         }
     }
 
@@ -89,5 +97,23 @@ public class EnemySpawner : MonoBehaviour {
 
     public void RemoveEnemy(Enemy e) {
         spawnedEnemies.Remove(e);
+    }
+
+    public IEnumerator WaitForTime_Interuptable(float time_) {
+        float endTime = time_;
+        float s = 0;
+        while(s < endTime) {
+            if(spawnedEnemies.Count <= 0) {
+                yield return MyHelpers.WaitForTime(3f);
+                break;
+            }
+            if(PauseMenu.Instance)
+                if(PauseMenu.Instance.isPaused) {
+                    yield return null;
+                    continue;
+                }
+            s += Time.deltaTime;
+            yield return null;
+        }
     }
 }

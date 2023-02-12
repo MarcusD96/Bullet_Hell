@@ -9,11 +9,19 @@ public class TargetCursor : MonoBehaviour {
     public GameObject target;
     public float moveSpeed;
 
+    private Player player;
+
     void Awake() {
         Cursor.visible = false;
+        player = FindObjectOfType<Player>();
     }
 
     private void LateUpdate() {
+        if(player == null) {
+            player = FindObjectOfType<Player>();
+            return;
+        }
+
         if(PauseMenu.Instance.isPaused)
             return;
 
@@ -25,6 +33,7 @@ public class TargetCursor : MonoBehaviour {
         }
         else
             MoveTargetToStick();
+
         RestrictToBounds();
     }
 
@@ -38,9 +47,13 @@ public class TargetCursor : MonoBehaviour {
     void MoveTargetToMouse() {
         //get input
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 playerPos = player.transform.position;
+
+        Vector2 dir = mousePos - playerPos;
+        dir = Vector2.ClampMagnitude(dir, (PlayerStatsManager.Instance.projectileSpeedLevel * 0.75f) + 1.5f);
 
         //set movement to mouse pos
-        target.transform.position = Vector2.Lerp(target.transform.position, mousePos, Time.unscaledDeltaTime * moveSpeed);
+        target.transform.position = Vector3.Lerp(target.transform.position, playerPos + dir, Time.unscaledDeltaTime * moveSpeed);
     }
 
     void MoveTargetToStick() {

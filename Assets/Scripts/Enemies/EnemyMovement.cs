@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour {
 
+
     public MoveMode moveMode;
     public float speed;
     public float maxPivotDegrees;
@@ -12,12 +13,15 @@ public class EnemyMovement : MonoBehaviour {
 
     protected Player player;
     protected Vector2 playerPos;
+    protected bool isFrozen = false;
 
+    private Enemy enemyComp;
     private Vector2 moveDirection, aimDirection;
     private float minRate, maxRate;
 
     private void Start() {
         player = FindObjectOfType<Player>();
+        enemyComp = GetComponent<Enemy>();
 
         minRate = detectionRate - detectionVariation;
         if(minRate < 0)
@@ -39,6 +43,9 @@ public class EnemyMovement : MonoBehaviour {
         if(PauseMenu.Instance.isPaused)
             return;
 
+        if(isFrozen == true)
+            return;
+
         UpdateAimDirection();
         if(pivot) {
             pivot.right = aimDirection;
@@ -56,6 +63,9 @@ public class EnemyMovement : MonoBehaviour {
             case MoveMode.Middle:
                 moveDirection = (player.transform.position - transform.position).normalized;
                 break;
+            case MoveMode.Random:
+                moveDirection = (MyHelpers.GetRandomPointOnScreen(enemyComp.size) - transform.position).normalized;
+                break;
             default:
                 break;
         }
@@ -69,9 +79,20 @@ public class EnemyMovement : MonoBehaviour {
     }
 
     void UpdatePlayerPosition() => playerPos = player.transform.position;
+
+    public void Freeze(float time) {
+        StartCoroutine(FreezeTime(time));
+    }
+
+    IEnumerator FreezeTime(float time) {
+        isFrozen = true;
+        yield return MyHelpers.WaitForTime(time);
+        isFrozen = false;
+    }
 }
 
 public enum MoveMode {
     Around,
-    Middle
+    Middle,
+    Random
 }

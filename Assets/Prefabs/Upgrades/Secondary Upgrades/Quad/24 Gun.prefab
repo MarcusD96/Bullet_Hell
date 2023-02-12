@@ -45,7 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upgradePrefab: {fileID: -4323205949926386926, guid: 18a4a957ad66dd9409a6bf5f505cae68, type: 3}
   title: Quattuorvigintuple Gun
-  cost: 10
   sprite: {fileID: 21300000, guid: 05de556a78fb8a5478ebd8bf1a3a464c, type: 3}
   description: Bullets...So many bullets...
-  childUpgrades: []
+  childUpgrades:
+  - {fileID: 4020317112555986593, guid: 8cf4031f17fcf904f98572410b10cbf3, type: 3}

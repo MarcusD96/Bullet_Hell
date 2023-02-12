@@ -12,13 +12,15 @@ public class Enemy : MonoBehaviour {
     public float explosionScale = 1;
     public string deathSound;
     public float size;
+    public bool isDead;
 
     [SerializeField] SpriteRenderer spriteRenderer;
 
     protected float currentHp;
-    protected bool isDead = false, isBurning = false;
+    protected bool isBurning = false;
 
     private void Start() {
+        isDead = false;
         currentHp = baseHp * LevelStats.Level;
         xpWorth *= Mathf.CeilToInt(LevelStats.Level / 3.0f);
         hpText.text = Mathf.Ceil(currentHp).ToString();
@@ -86,5 +88,9 @@ public class Enemy : MonoBehaviour {
     private void OnDrawGizmosSelected() {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, size);
+    }
+
+    public float GetRadius() {
+        return size;
     }
 }

@@ -108,4 +108,7 @@ public class BossEnemy : Enemy {
         bubbleShield.SetActive(false);
     }
 
+    public bool IsInvincible() {
+        return isInvincible;
+    }
 }

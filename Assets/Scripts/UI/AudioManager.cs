@@ -16,25 +16,34 @@ public class AudioManager : MonoBehaviour {
     }
     #endregion
 
-	public Sound[] sounds;
+	public Sound[] SFX;
+	public Sound[] Music;
+
+	Sound currentSong;
 
 	void Start() {
 		DontDestroyOnLoad(gameObject);
-		GameObject s = new GameObject("Sounds");
+		InitializeSounds(SFX);
+		InitializeSounds(Music);
+		StartCoroutine(PlayMusic()); 
+	}
+
+	void InitializeSounds(Sound[] soundArray) {
+		GameObject s = new GameObject(nameof(soundArray));
 		s.transform.SetParent(transform);
-		for(int i = 0; i < sounds.Length; i++) {
-			GameObject _go = new GameObject(sounds[i].name);
+		for(int i = 0; i < soundArray.Length; i++) {
+			GameObject _go = new GameObject(soundArray[i].name);
 			_go.transform.SetParent(s.transform);
-			sounds[i].SetSource(_go.AddComponent<AudioSource>());
+			soundArray[i].SetSource(_go.AddComponent<AudioSource>());
 		}
 	}
 
 	public void PlaySound(string name_) {
-		for(int i = 0; i < sounds.Length; i++) {
-			if(sounds[i].name == name_) {
-                if(sounds[i].loop)
+		for(int i = 0; i < SFX.Length; i++) {
+			if(SFX[i].name == name_) {
+                if(SFX[i].loop)
 					Debug.LogWarning(name_ + " sound is looped, use PlayLoopedSound() instead.");
-				sounds[i].Play();
+				SFX[i].Play();
 				return;
 			}
 		}
@@ -44,9 +53,9 @@ public class AudioManager : MonoBehaviour {
 	}
 
 	public int PlayLoopedSound(string name_) {
-		for(int i = 0; i < sounds.Length; i++) {
-			if(sounds[i].name == name_) {
-				sounds[i].PlayLooped();
+		for(int i = 0; i < SFX.Length; i++) {
+			if(SFX[i].name == name_) {
+				SFX[i].PlayLooped();
 				return i;
 			}
 		}
@@ -57,7 +66,32 @@ public class AudioManager : MonoBehaviour {
     }
 
 	public void StopSound(int index) {
-		sounds[index].Stop();
+		SFX[index].Stop();
+    }
+
+	IEnumerator PlayMusic() {
+		int musicIndex = Random.Range(0, Music.Length);
+
+        while(true) {
+			currentSong = Music[musicIndex];
+			Music[musicIndex].Play();
+			yield return new WaitForSecondsRealtime(Music[musicIndex].clip.length + 3f);
+			musicIndex++;
+			if(musicIndex >= Music.Length)
+				musicIndex = 0;
+        }
+    }
+
+	public void SetSFXVolume(float num) {
+        foreach(var s in SFX) {
+			s.volume = num;
+        }
+    }
+	
+	public void SetMusicVolume(float num) {
+        foreach(var s in Music) {
+			s.volume = num;
+        }
     }
 }
 

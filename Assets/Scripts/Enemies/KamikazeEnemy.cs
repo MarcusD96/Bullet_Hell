@@ -17,6 +17,10 @@ public class KamikazeEnemy : Enemy {
     }
 
     private void Update() {
+        if(p == null) {
+            p = FindObjectOfType<Player>();
+            return;
+        }
         transform.Rotate(rotateSpeed * Time.deltaTime * Vector3.forward);
     }
 }

@@ -349,6 +349,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!1 &6984206661148519969
 GameObject:
   m_ObjectHideFlags: 0
@@ -542,7 +543,7 @@ MonoBehaviour:
   explosionPrefab: {fileID: 7496335483395040508, guid: d952ceb00db84d34ebacd7decdbc1424, type: 3}
   explosionScale: 1
   deathSound: Boom
-  size: 1
+  size: 0.48
   spriteRenderer: {fileID: 8190963758071747662}
 --- !u!114 &-1036931103746806657
 MonoBehaviour:
@@ -576,12 +577,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveMode: 0
   speed: 1
+  maxPivotDegrees: 0
   detectionRate: 2.5
   detectionVariation: 0
   pivot: {fileID: 7847786609709515191}
   vibrateAmount: 0.09
   warpDistance: 1.75
-  teleportShadow: {fileID: 0}
+  teleportShadow: {fileID: 5078470226939631821, guid: 8ed9c800bb87cce41a76435c9ea1f3ac, type: 3}
 --- !u!58 &1676441553191416886
 CircleCollider2D:
   m_ObjectHideFlags: 0

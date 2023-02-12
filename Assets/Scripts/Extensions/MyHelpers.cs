@@ -28,6 +28,7 @@ public static class MyHelpers {
             yield return null;
         }
     }
+
     public static Vector2 GetCameraBorderRandomPosition(float offset_) {
         offset_ *= 2f;
 
@@ -65,5 +66,37 @@ public static class MyHelpers {
         }
 
         return position;
+    }
+
+    public static Vector2 MoveTowards(Vector2 pos1, Vector2 pos2, float step) {
+        Vector2 pos = pos2 - pos1;
+        float mag = Vector2.Dot(pos, pos);
+
+        if(mag < step * step)
+            return pos2;
+
+        Vector2 dir = pos / Mathf.Sqrt(mag);
+
+        return pos1 + (step * dir);
+    }
+
+    public static Vector3 GetRandomPointOnScreen(float size_) {
+        Rect camRect = Camera.main.rect;
+
+        float x = camRect.x;
+        float y = camRect.y;
+
+        float randX = Random.Range(-x + size_, x - size_);
+        float randY = Random.Range(-y + size_, y - size_);
+
+        return new Vector3(randX, randY);
+    }
+
+    public static Vector2 VaryDirection(Vector2 directionVector, float variation_) {
+        float rX = Random.Range(-variation_, variation_);
+        float rY = Random.Range(-variation_, variation_);
+        Vector2 dir = new Vector2(directionVector.x + rX, directionVector.y + rY);
+        dir.Normalize();
+        return dir;
     }
 }

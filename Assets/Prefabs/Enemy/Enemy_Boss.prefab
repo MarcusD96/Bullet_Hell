@@ -625,6 +625,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!1 &5031392377048981395
 GameObject:
   m_ObjectHideFlags: 0
@@ -1000,6 +1001,7 @@ MonoBehaviour:
   explosionPrefab: {fileID: 7496335483395040508, guid: d952ceb00db84d34ebacd7decdbc1424, type: 3}
   explosionScale: 3
   deathSound: Boom
+  size: 1.18
   spriteRenderer: {fileID: 8190963758071747662}
   upgradeStar: {fileID: -1531893813464338307, guid: 0350dd254c94afb45b43388a45e2488d, type: 3}
   numSpawn: 6
@@ -1054,8 +1056,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33ac5e90e4cc6964ab1c47a2413cf156, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveMode: 0
+  moveMode: 2
   speed: 0.25
+  maxPivotDegrees: 90
   detectionRate: 1
   detectionVariation: 0.5
   pivot: {fileID: 7869770858744645910}

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class LaserShoot : MonoBehaviour {
 
-    public Transform pivot;
+    public Transform pivot, fireSpawn;
     public string shootStartSound, shootLoopSound, shootEndSound;
     public LineRenderer lr;
     public LayerMask enemyLayer;
@@ -11,6 +11,7 @@ public class LaserShoot : MonoBehaviour {
     public float shrinkSpeed, growSpeed;
     [Tooltip("1 / num seconds until next hit")]
 
+    private float laserSize;
     private Player player;
     private Transform targetCursor;
 
@@ -20,6 +21,7 @@ public class LaserShoot : MonoBehaviour {
 
     private void Start() {
         targetCursor = FindObjectOfType<TargetCursor>().target.transform;
+        laserSize = lr.startWidth;
     }
 
     private void Update() {
@@ -67,8 +69,10 @@ public class LaserShoot : MonoBehaviour {
     }
 
     void ShrinkLaser() {
-        float scale = lr.startWidth;
-        lr.startWidth = lr.endWidth = Mathf.Lerp(scale, 0, shrinkSpeed * Time.deltaTime);
+        float scaleStart = lr.startWidth;
+        float scaleEnd = lr.endWidth;
+        lr.startWidth = Mathf.Lerp(scaleStart, 0, shrinkSpeed * Time.deltaTime);
+        lr.endWidth = Mathf.Lerp(scaleEnd, 0, shrinkSpeed * Time.deltaTime);
     }
 
     int shootingSoundIndex = -1;
@@ -79,14 +83,17 @@ public class LaserShoot : MonoBehaviour {
             lr.enabled = true;
         }
 
-        if(lr.startWidth >= 0.2f) {
-            lr.startWidth = lr.endWidth = 0.2f;
+        if(lr.startWidth >= laserSize) {
+            lr.startWidth = laserSize;
+            lr.endWidth = laserSize / 3;
             return;
         }
 
-        float scale = lr.startWidth;
-        if(scale < 0.2f) {
-            lr.startWidth = lr.endWidth = Mathf.Lerp(scale, 0.2f, growSpeed * Time.deltaTime);
+        float scaleStart = lr.startWidth;
+        float scaleEnd = lr.endWidth;
+        if(scaleStart < laserSize) {
+            lr.startWidth = Mathf.Lerp(scaleStart, laserSize, growSpeed * Time.deltaTime);
+            lr.endWidth = Mathf.Lerp(scaleEnd, laserSize / 3, growSpeed * Time.deltaTime);
         }
     }
 
@@ -99,24 +106,24 @@ public class LaserShoot : MonoBehaviour {
 
     private void CheckLaser() {
         //only use main fireSpawn
-        Vector3 dir = (targetCursor.position - pivot.position).normalized;
-        float desiredDestinationDist = Vector3.Distance(pivot.position, targetCursor.position);
+        Vector3 dir = (GetForwardDestination(targetCursor.position) - pivot.position).normalized;
+        //float desiredDestinationDist = Vector3.Distance(pivot.position, targetCursor.position);
         float maxDist = player.projectileSpeed * 0.75f;
 
         RaycastHit2D[] hits;
         Vector3 actualDestination;
-        if(desiredDestinationDist <= maxDist) {
-            actualDestination = targetCursor.position;
-            hits = Physics2D.RaycastAll(pivot.position, dir, desiredDestinationDist, enemyLayer);
-        }
-        else {
+        //if(desiredDestinationDist <= maxDist) {
+        //    actualDestination = GetForwardDestination(targetCursor.position);
+        //    hits = Physics2D.RaycastAll(pivot.position, dir, desiredDestinationDist, enemyLayer);
+        //}
+        //else {
             actualDestination = pivot.position + (dir * maxDist);
             hits = Physics2D.RaycastAll(pivot.position, dir, maxDist, enemyLayer);
-        }
+        //}
 
         //less that max penetration hits, draw at max distance
         if(hits.Length < player.penetration) {
-            DrawLine(pivot.position, actualDestination);
+            DrawLine(fireSpawn.position, actualDestination);
             DamageEnemies(hits);
             return;
         }
@@ -128,7 +135,7 @@ public class LaserShoot : MonoBehaviour {
         }
         DamageEnemies(shrinkHits);
 
-        DrawLine(pivot.position, shrinkHits[shrinkHits.Length - 1].point);
+        DrawLine(fireSpawn.position, shrinkHits[shrinkHits.Length - 1].point);
     }
 
     void DrawLine(Vector2 startPos, Vector2 endPos) {
@@ -155,5 +162,10 @@ public class LaserShoot : MonoBehaviour {
             else if(e.collider.TryGetComponent(out Asteroid a))
                 a.Damage(player.damage);
         }
+    }
+
+    Vector3 GetForwardDestination(Vector3 t) {
+        float mag = (t - fireSpawn.position).magnitude;
+        return fireSpawn.position + (pivot.right * mag);
     }
 }

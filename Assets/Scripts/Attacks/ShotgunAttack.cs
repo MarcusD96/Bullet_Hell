@@ -36,8 +36,8 @@ public class ShotgunAttack : ProjectileAttack {
             Quaternion saveRot = f.rotation;
             for(int i = 0; i < numPellets; i++) {
                 f.rotation = Quaternion.Euler(rots[i]);
-                var p = Instantiate(projectilePrefab, f.position, f.rotation);
-                p.Initialize(damage, projSpeed + Random.Range(-0.5f, 0.5f), f.right);
+                var p = Instantiate(projectilePrefab, f.position, f.rotation, GameObject.FindGameObjectWithTag("ProjectileDump").transform);
+                p.Initialize(damage, projSpeed + Random.Range(-0.5f, 0.5f), f.right, null);
             }
 
             //reset original rotation
