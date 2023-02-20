@@ -1,4 +1,4 @@
-﻿
+﻿using UnityEngine;
 
 [System.Serializable]
 public class Wave {
@@ -26,6 +26,5 @@ public class WaveChunk {
     public int count;
     public float spawnRate, spawnDelay;
     public bool isBurst = false;
-    [UnityEngine.Tooltip("If burst type, how many per burst?")]
-    public float burstNum;
+    [Tooltip("If burst type, how many per burst?")] public float burstNum;
 }

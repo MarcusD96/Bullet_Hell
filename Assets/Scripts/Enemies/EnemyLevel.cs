@@ -15,6 +15,6 @@ public class EnemyLevel : MonoBehaviour {
         if(PauseMenu.Instance.isPaused)
             return;
 
-        text.text = (EnemySpawner.Instance.waveNumber + 1).ToString();
+        text.text = (EnemySpawner.Instance.waveNumber).ToString();
     }
 }

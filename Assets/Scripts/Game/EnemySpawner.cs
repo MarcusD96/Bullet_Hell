@@ -12,7 +12,7 @@ public class EnemySpawner : MonoBehaviour {
 
     public List<Wave> waves;
     public bool debugWave = false;
-    [Range(0, 15)] public int waveNumber;
+    [Range(1, 15)] public int waveNumber;
 
     private List<Enemy> spawnedEnemies;
 
@@ -40,7 +40,7 @@ public class EnemySpawner : MonoBehaviour {
             yield break;
         }
 
-        for(int i = waveNumber; i < waves.Count; i++) {
+        for(int i = waveNumber - 1; i < waves.Count; i++) {
             foreach(var c in waves[i].chunks) {
                 StartCoroutine(SpawnWaveChunk(c));
             }
@@ -51,8 +51,10 @@ public class EnemySpawner : MonoBehaviour {
             while(spawnedEnemies.Count > 0) {
                 yield return null;
             }
+
             FindObjectOfType<BackgroundScroll>().GetNextBackground();
-            LevelStats.Level++;
+
+            waveNumber++;
         }
         SceneFader.Instance.FadeToScene(0);
     }

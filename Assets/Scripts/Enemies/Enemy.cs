@@ -20,9 +20,11 @@ public class Enemy : MonoBehaviour {
     protected bool isBurning = false;
 
     private void Start() {
+        int level = EnemySpawner.Instance.waveNumber;
+
         isDead = false;
-        currentHp = baseHp * LevelStats.Level;
-        xpWorth *= Mathf.CeilToInt(LevelStats.Level / 3.0f);
+        currentHp = baseHp * level;
+        xpWorth *= Mathf.CeilToInt(level / 3.0f);
         hpText.text = Mathf.Ceil(currentHp).ToString();
         name = "Enemy_" + Random.Range(0, 10000);
     }

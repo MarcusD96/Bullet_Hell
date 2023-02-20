@@ -86,7 +86,7 @@ public class Player : MonoBehaviour {
 
     private void DoDie() {
         IsDead = true;
-        LevelStats.Level = 1;
+        EnemySpawner.Instance.waveNumber = 1;
         StartCoroutine(Die());
     }
 

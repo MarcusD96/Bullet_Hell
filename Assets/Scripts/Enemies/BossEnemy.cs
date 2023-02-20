@@ -41,14 +41,16 @@ public class BossEnemy : Enemy {
     }
 
     private void Update() {
+        int level = EnemySpawner.Instance.waveNumber;
+
         if(!completedPhaseOne)
-            if(currentHp <= baseHp * LevelStats.Level * 0.75f)
+            if(currentHp <= baseHp * level * 0.75f)
                 StartCoroutine(DoInvincibility(1));
         if(!completedPhaseTwo)
-            if(currentHp <= baseHp * LevelStats.Level * 0.5f)
+            if(currentHp <= baseHp * level * 0.5f)
                 StartCoroutine(DoInvincibility(2));
         if(!completedPhaseThree)
-            if(currentHp <= baseHp * LevelStats.Level * 0.25f)
+            if(currentHp <= baseHp * level * 0.25f)
                 StartCoroutine(DoInvincibility(3));
     }
 

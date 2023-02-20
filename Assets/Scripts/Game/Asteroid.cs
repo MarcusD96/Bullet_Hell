@@ -53,7 +53,7 @@ public class Asteroid : MonoBehaviour {
                     return;
             }
             //all children killed, award xp, destroy parent
-            Instantiate(XPStar, transform.position, MyHelpers.RandomZRotation).InitializePickUp((EnemySpawner.Instance.waveNumber + 1) * 7);
+            Instantiate(XPStar, transform.position, MyHelpers.RandomZRotation).InitializePickUp((EnemySpawner.Instance.waveNumber) * 7);
             Destroy(gameObject);
         }
     }
@@ -146,7 +146,7 @@ public class Asteroid : MonoBehaviour {
             if(p.GetInvulnerable() == true)
                 return;
 
-            p.TakeDamage(LevelStats.Level);
+            p.TakeDamage(EnemySpawner.Instance.waveNumber);
 
             Vector3 dir = (p.transform.position - transform.position).normalized;
             p.GetComponent<Movement>().Knockback(dir, 20, 0.05f);

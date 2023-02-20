@@ -10632,7 +10632,7 @@ MonoBehaviour:
       spawnDelay: 0
       isBurst: 1
       burstNum: 10
-  - name: Boss
+  - name: Boss 1
     chunks:
     - enemy: {fileID: 1778263389189660886, guid: aafb607e224f2a84c820eac021ba580e, type: 3}
       count: 1
@@ -10751,7 +10751,7 @@ MonoBehaviour:
       isBurst: 0
       burstNum: 0
   debugWave: 0
-  waveNumber: 0
+  waveNumber: 1
 --- !u!114 &948117600
 MonoBehaviour:
   m_ObjectHideFlags: 0
